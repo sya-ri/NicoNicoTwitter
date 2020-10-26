@@ -55,4 +55,21 @@ object PenicillinTest {
             }
         }
     }
+
+    object SimpleSearchIgnoreRT {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            runBlocking {
+                val client = PenicillinClient {
+                    account {
+                        application(CONSUMER_API_KEY, CONSUMER_API_SECRET_KEY)
+                        token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+                    }
+                }
+                val response = client.search.search("#test -RT").execute()
+                println(response)
+                println(response.json.toString().length)
+            }
+        }
+    }
 }
