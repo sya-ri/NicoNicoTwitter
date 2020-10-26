@@ -4,21 +4,13 @@ import blue.starry.penicillin.PenicillinClient
 import blue.starry.penicillin.core.session.config.account
 import blue.starry.penicillin.core.session.config.application
 import blue.starry.penicillin.core.session.config.token
-import blue.starry.penicillin.core.streaming.listener.FilterStreamListener
-import blue.starry.penicillin.endpoints.*
-import blue.starry.penicillin.endpoints.activity.aboutMe
+import blue.starry.penicillin.endpoints.oauth
 import blue.starry.penicillin.endpoints.oauth.accessToken
 import blue.starry.penicillin.endpoints.oauth.authenticateUrl
 import blue.starry.penicillin.endpoints.oauth.requestToken
+import blue.starry.penicillin.endpoints.search
 import blue.starry.penicillin.endpoints.search.search
-import blue.starry.penicillin.endpoints.stream.filter
-import blue.starry.penicillin.endpoints.stream.sample
-import blue.starry.penicillin.endpoints.timeline.userTimeline
 import blue.starry.penicillin.extensions.execute
-import blue.starry.penicillin.extensions.listen
-import blue.starry.penicillin.extensions.queue
-import blue.starry.penicillin.models.Status
-import blue.starry.penicillin.models.Stream
 import kotlinx.coroutines.runBlocking
 
 object PenicillinTest {
