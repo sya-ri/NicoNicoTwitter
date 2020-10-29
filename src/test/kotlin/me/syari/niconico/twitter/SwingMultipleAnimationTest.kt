@@ -36,12 +36,37 @@ object SwingMultipleAnimationTest {
     ) {
         private val width = FontDesignMetrics.getMetrics(font).getStringBounds(text, null).width
 
-        val isNotVisible
+        private inline val isNotVisible
             get() = (x + width) < 0
 
         fun draw(g: Graphics) {
             g.drawString(text, x, y)
             x --
+        }
+
+        class Manager {
+            private val renderList = mutableSetOf<AnimationString>()
+
+            val size
+                get() = renderList.size
+
+            fun add(
+                x: Int,
+                y: Int,
+                text: String,
+                font: Font
+            ) {
+                renderList.add(AnimationString(x, y, text, font))
+            }
+
+            fun draw(g: Graphics) {
+                renderList.forEach {
+                    it.draw(g)
+                }
+                renderList.removeIf {
+                    it.isNotVisible
+                }
+            }
         }
     }
 
@@ -50,7 +75,7 @@ object SwingMultipleAnimationTest {
             repaint()
         }
 
-        private val animationStrings = mutableSetOf<AnimationString>()
+        private val animationStringManager = AnimationString.Manager()
 
         init {
             font = Font("Arial", Font.PLAIN, 24)
@@ -61,20 +86,14 @@ object SwingMultipleAnimationTest {
         }
 
         fun addString(text: String) {
-            animationStrings.add(AnimationString(width, 100, text, font))
+            animationStringManager.add(width, 100, text, font)
         }
 
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
 
-            g.drawString(animationStrings.size.toString(), 10, 30)
-
-            animationStrings.forEach {
-                it.draw(g)
-            }
-            animationStrings.removeIf {
-                it.isNotVisible
-            }
+            g.drawString(animationStringManager.size.toString(), 10, 30)
+            animationStringManager.draw(g)
         }
     }
 }
