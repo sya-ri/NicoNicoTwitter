@@ -14,7 +14,7 @@ object SwingMultipleAnimationTest {
         val animationPanel: AnimationPanel
         JFrame().apply {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE // バツボタンの処理
-            title = "SwingAdvancedAnimationTest" // ウィンドウタイトル
+            title = "SwingMultipleAnimationTest" // ウィンドウタイトル
             bounds = Rectangle(900, 600) // ウィンドウサイズを指定
             setLocationRelativeTo(null) // ウィンドウを中心に配置
             animationPanel = add(AnimationPanel().apply {
