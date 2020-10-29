@@ -29,43 +29,46 @@ object SwingMultipleAnimationTest {
     }
 
     class AnimationString(
+        private val width: Double,
         private var x: Int,
         private val y: Int,
-        private val text: String,
-        font: Font
+        private val text: String
     ) {
-        private val width = FontDesignMetrics.getMetrics(font).getStringBounds(text, null).width
-
-        private inline val isNotVisible
-            get() = (x + width) < 0
-
         fun draw(g: Graphics) {
             g.drawString(text, x, y)
             x --
         }
 
-        class Manager {
+        class Manager(
+            private val marginX: Int,
+            private val marginY: Int,
+            private val beginY: Int
+        ) {
             private val renderList = mutableSetOf<AnimationString>()
 
             val size
                 get() = renderList.size
 
             fun add(
-                x: Int,
-                y: Int,
-                text: String,
-                font: Font
+                panel: AnimationPanel,
+                text: String
             ) {
-                renderList.add(AnimationString(x, y, text, font))
+                val width = panel.width
+                val bounds = FontDesignMetrics.getMetrics(panel.font).getStringBounds(text, null)
+                val notAvailableY = renderList.filter { width < (it.x + it.width) }.map { it.y }
+                val y = sequence {
+                    var y = beginY
+                    while (true) {
+                        yield(y)
+                        y += bounds.height.toInt() + marginY
+                    }
+                }.first { notAvailableY.contains(it).not() }
+                renderList.add(AnimationString(marginX + bounds.width, width, y, text))
             }
 
             fun draw(g: Graphics) {
-                renderList.forEach {
-                    it.draw(g)
-                }
-                renderList.removeIf {
-                    it.isNotVisible
-                }
+                renderList.forEach { it.draw(g) } // 再描写
+                renderList.removeIf { (it.x + it.width) < 0 } // 左端まで行って表示されなくなったら削除
             }
         }
     }
@@ -75,7 +78,7 @@ object SwingMultipleAnimationTest {
             repaint()
         }
 
-        private val animationStringManager = AnimationString.Manager()
+        private val animationStringManager = AnimationString.Manager(20, 10, 30)
 
         init {
             font = Font("Arial", Font.PLAIN, 24)
@@ -86,7 +89,7 @@ object SwingMultipleAnimationTest {
         }
 
         fun addString(text: String) {
-            animationStringManager.add(width, 100, text, font)
+            animationStringManager.add(this, text)
         }
 
         override fun paintComponent(g: Graphics) {
