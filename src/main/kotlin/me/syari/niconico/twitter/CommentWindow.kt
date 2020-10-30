@@ -22,7 +22,7 @@ object CommentWindow {
             title = "NicoNicoTwitter - Comment" // ウィンドウタイトル
             isUndecorated = true // ウィンドウ上部を非表示に変更
             extendedState = Frame.MAXIMIZED_BOTH // スクリーンサイズを最大に変更
-            add(CommentPanel().apply {
+            add(CommentPanel(option).apply {
                 start()
                 GlobalScope.launch {
                     TwitterAPI.ContinuousSearch.search(buildString {
@@ -51,10 +51,13 @@ object CommentWindow {
     class Option {
         var ignoreRT = false
         var removeHashTag = false
+        var displayFps = 60
+        var displayDurationSecond = 5
+        var maxCommentCount = 15
     }
 
-    class CommentPanel: JPanel() {
-        private val animationTimer = Timer(10) {
+    class CommentPanel(val option: Option): JPanel() {
+        private val animationTimer = Timer(1000 / option.displayFps) {
             repaint()
         }
 
@@ -84,11 +87,12 @@ object CommentWindow {
         private val width: Double,
         private var x: Int,
         private val y: Int,
-        private val text: String
+        private val text: String,
+        private val speedX: Int
     ) {
         fun draw(g: Graphics) {
             g.drawString(text, x, y)
-            x --
+            x -= speedX
         }
 
         class Manager(
@@ -105,9 +109,8 @@ object CommentWindow {
                 panel: CommentPanel,
                 text: String
             ) {
-                val width = panel.width
                 val bounds = FontDesignMetrics.getMetrics(panel.font).getStringBounds(text, null)
-                val notAvailableY = commentList.filter { width < (it.x + it.width) }.map { it.y }
+                val notAvailableY = commentList.filter { panel.width < (it.x + it.width) }.map { it.y }
                 val y = sequence {
                     var y = beginY
                     while (true) {
@@ -115,8 +118,9 @@ object CommentWindow {
                         y += bounds.height.toInt() + marginY
                     }
                 }.first { notAvailableY.contains(it).not() }
-                if (panel.height < y) return
-                commentList.add(Comment(marginX + bounds.width, width, y, text))
+                if (panel.height < y || panel.option.maxCommentCount <= size) return
+                val speedX = (panel.width + bounds.width) / panel.option.displayDurationSecond / panel.option.displayFps
+                commentList.add(Comment(marginX + bounds.width, panel.width, y, text, speedX.toInt()))
             }
 
             fun draw(g: Graphics) {
