@@ -5,6 +5,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.syari.niconico.twitter.api.TwitterAPI
 import java.awt.Desktop
 import java.awt.Rectangle
@@ -25,9 +26,11 @@ object OptionWindow {
                 }) as JTextField
                 add(JButton("認証").apply {
                     addActionListener {
-                        GlobalScope.launch(Dispatchers.IO) {
+                        GlobalScope.launch {
                             val generateResult = TwitterAPI.AuthURLProvider.generate()
-                            Desktop.getDesktop().browse(generateResult.url.toURI())
+                            withContext(Dispatchers.IO) {
+                                Desktop.getDesktop().browse(generateResult.url.toURI())
+                            }
                             val pin = JOptionPane("PINコードを入力してください").apply {
                                 wantsInput = true // 入力を受けつける
                                 createDialog("Twitter 認証").apply {
