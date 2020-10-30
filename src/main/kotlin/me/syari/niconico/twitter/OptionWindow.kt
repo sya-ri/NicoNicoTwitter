@@ -28,7 +28,17 @@ object OptionWindow {
                     addActionListener {
                         GlobalScope.launch {
                             isEnabled = false
-                            val generateResult = TwitterAPI.AuthURLProvider.generate()
+                            val generateResult = try {
+                                TwitterAPI.AuthURLProvider.generate()
+                            } catch (ex: PenicillinException) {
+                                JOptionPane("URLの発行に失敗しました").apply {
+                                    createDialog("エラー").apply {
+                                        isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                                        isVisible = true // ウィンドウを表示する
+                                    }
+                                }
+                                return@launch
+                            }
                             withContext(Dispatchers.IO) {
                                 Desktop.getDesktop().browse(generateResult.url.toURI())
                             }
