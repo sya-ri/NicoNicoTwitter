@@ -27,6 +27,7 @@ object OptionWindow {
                 add(JButton("認証").apply {
                     addActionListener {
                         GlobalScope.launch {
+                            isEnabled = false
                             val generateResult = TwitterAPI.AuthURLProvider.generate()
                             withContext(Dispatchers.IO) {
                                 Desktop.getDesktop().browse(generateResult.url.toURI())
@@ -37,7 +38,9 @@ object OptionWindow {
                                     isAlwaysOnTop = true // ウィンドウを最前面で固定する
                                     isVisible = true // ウィンドウを表示する
                                 }
-                            }.inputValue as? String ?: return@launch
+                            }.inputValue
+                            isEnabled = true
+                            if (pin !is String) return@launch
                             val accessTokenResponse = try {
                                 TwitterAPI.AuthURLProvider.enterPin(generateResult, pin)
                             } catch (ex: PenicillinException) {
