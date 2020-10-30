@@ -115,6 +115,7 @@ object CommentWindow {
                         y += bounds.height.toInt() + marginY
                     }
                 }.first { notAvailableY.contains(it).not() }
+                if (panel.height < y) return
                 commentList.add(Comment(marginX + bounds.width, width, y, text))
             }
 
