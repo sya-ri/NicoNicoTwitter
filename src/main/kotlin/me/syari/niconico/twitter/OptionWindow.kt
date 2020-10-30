@@ -10,6 +10,7 @@ import me.syari.niconico.twitter.api.TwitterAPI
 import java.awt.Desktop
 import java.awt.Rectangle
 import javax.swing.JButton
+import javax.swing.JCheckBox
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.JOptionPane
@@ -32,9 +33,13 @@ object OptionWindow {
                 add(TwitterAuthButton(twitterIdTextField))
                 add(JLabel("検索ワード"))
                 val twitterSearchWord = add(JTextField(20)) as JTextField
+                add(JLabel("除外"))
+                val ignoreRTCheckBox = add(JCheckBox("RT")) as JCheckBox
                 add(JButton("実行").apply {
                     addActionListener {
-                        CommentWindow.show(twitterSearchWord.text)
+                        CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
+                            ignoreRT = ignoreRTCheckBox.isSelected
+                        })
                     }
                 })
             })

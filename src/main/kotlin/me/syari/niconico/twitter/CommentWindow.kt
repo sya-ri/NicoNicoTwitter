@@ -15,7 +15,7 @@ import javax.swing.Timer
 object CommentWindow {
     private var openWindow: JFrame? = null
 
-    fun show(searchWord: String) {
+    fun show(searchWord: String, option: Option) {
         openWindow?.dispose()
         openWindow = JFrame().apply {
             defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE // バツボタンの処理
@@ -25,7 +25,12 @@ object CommentWindow {
             add(CommentPanel().apply {
                 start()
                 GlobalScope.launch {
-                    TwitterAPI.ContinuousSearch.search(searchWord) {
+                    TwitterAPI.ContinuousSearch.search(buildString {
+                        append(searchWord)
+                        if (option.ignoreRT) {
+                            append(" -RT")
+                        }
+                    }) {
                         it.forEach { status ->
                             addComment(status.text)
                         }
@@ -35,6 +40,10 @@ object CommentWindow {
             isVisible = true // ウィンドウを表示
         }
         println("open")
+    }
+
+    class Option {
+        var ignoreRT = true
     }
 
     class CommentPanel: JPanel() {
