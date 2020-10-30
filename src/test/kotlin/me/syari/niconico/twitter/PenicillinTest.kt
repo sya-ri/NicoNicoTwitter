@@ -4,7 +4,6 @@ import blue.starry.penicillin.PenicillinClient
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.core.session.config.account
 import blue.starry.penicillin.core.session.config.application
-import blue.starry.penicillin.core.session.config.token
 import blue.starry.penicillin.endpoints.oauth
 import blue.starry.penicillin.endpoints.oauth.accessToken
 import blue.starry.penicillin.endpoints.oauth.authenticateUrl
@@ -34,16 +33,24 @@ object PenicillinTest {
         }
     }
 
+    suspend fun getConnectedClient(): ApiClient {
+        return PenicillinClient {
+            account {
+                application(CONSUMER_API_KEY, CONSUMER_API_SECRET_KEY)
+            }
+        }.apply {
+            val response = oauth.requestToken()
+            println(oauth.authenticateUrl(response.requestToken))
+            val pin = readLine()!!
+            println(oauth.accessToken(CONSUMER_API_KEY, CONSUMER_API_SECRET_KEY, response.requestToken, response.requestTokenSecret, pin))
+        }
+    }
+
     object SimpleSearch {
         @JvmStatic
         fun main(args: Array<String>) {
             runBlocking {
-                val client = PenicillinClient {
-                    account {
-                        application(CONSUMER_API_KEY, CONSUMER_API_SECRET_KEY)
-                        token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-                    }
-                }
+                val client = getConnectedClient()
                 val response = client.search.search("#test").execute()
                 println(response)
                 println(response.json.toString().length)
@@ -55,12 +62,7 @@ object PenicillinTest {
         @JvmStatic
         fun main(args: Array<String>) {
             runBlocking {
-                val client = PenicillinClient {
-                    account {
-                        application(CONSUMER_API_KEY, CONSUMER_API_SECRET_KEY)
-                        token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-                    }
-                }
+                val client = getConnectedClient()
                 val response = client.search.search("#test -RT").execute()
                 println(response)
                 println(response.json.toString().length)
@@ -72,12 +74,7 @@ object PenicillinTest {
         @JvmStatic
         fun main(args: Array<String>) {
             runBlocking {
-                val client = PenicillinClient {
-                    account {
-                        application(CONSUMER_API_KEY, CONSUMER_API_SECRET_KEY)
-                        token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-                    }
-                }
+                val client = getConnectedClient()
                 var sinceId = client.mostRecentId("#test -RT")
                 while (true) {
                     val response = client.search.search("#test -RT", count = 100, sinceId = sinceId).execute()
