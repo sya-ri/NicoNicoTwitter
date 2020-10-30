@@ -34,7 +34,7 @@ object OptionWindow {
                 val twitterSearchWord = add(JTextField(20)) as JTextField
                 add(JButton("実行").apply {
                     addActionListener {
-                        CommentWindow.show()
+                        CommentWindow.show(twitterSearchWord.text)
                     }
                 })
             })
