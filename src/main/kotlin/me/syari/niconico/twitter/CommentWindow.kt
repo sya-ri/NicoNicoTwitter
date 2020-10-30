@@ -75,10 +75,33 @@ object CommentWindow {
             commentManager.add(this, text)
         }
 
+        private val frameRate = FrameRate(500)
+        class FrameRate(private val updateTimeMillis: Int) {
+            private var lastTime = System.currentTimeMillis()
+            private var count = 0
+
+            var frameRate = 0f
+                private set
+
+            fun process(): Boolean {
+                val currentTime = System.currentTimeMillis()
+                count ++
+                return if (updateTimeMillis <= currentTime - lastTime) {
+                    frameRate = (count * 1000).toFloat() / (currentTime - lastTime).toFloat()
+                    lastTime = currentTime
+                    count = 0
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
 
-            g.drawString(commentManager.size.toString(), 10, 30)
+            frameRate.process()
+            g.drawString(frameRate.frameRate.toString() + "FPS / " + commentManager.size.toString(), 10, 30)
             commentManager.draw(g)
         }
     }
