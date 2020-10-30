@@ -14,6 +14,8 @@ import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.extensions.models.text
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import me.syari.niconico.twitter.api.CONSUMER_API_KEY
+import me.syari.niconico.twitter.api.CONSUMER_API_SECRET_KEY
 
 object PenicillinTest {
     object APIConnect {

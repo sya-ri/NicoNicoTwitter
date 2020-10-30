@@ -2,3 +2,4 @@
 /.gradle/
 /.idea/
 /build/
+/src/main/kotlin/me/syari/niconico/twitter/api/ConsumerApiKey.kt

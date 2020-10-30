@@ -9,8 +9,6 @@ import blue.starry.penicillin.endpoints.oauth.accessToken
 import blue.starry.penicillin.endpoints.oauth.authenticateUrl
 import blue.starry.penicillin.endpoints.oauth.requestToken
 import io.ktor.http.*
-import me.syari.niconico.twitter.CONSUMER_API_KEY
-import me.syari.niconico.twitter.CONSUMER_API_SECRET_KEY
 
 object TwitterAPI {
     private val client = PenicillinClient {
