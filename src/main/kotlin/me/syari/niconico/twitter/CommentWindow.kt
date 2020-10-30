@@ -8,6 +8,7 @@ import sun.font.FontDesignMetrics
 import java.awt.Font
 import java.awt.Frame
 import java.awt.Graphics
+import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.Timer
@@ -63,10 +64,6 @@ object CommentWindow {
 
         private val commentManager = Comment.Manager(20, 10, 30)
 
-        init {
-            font = Font("Arial", Font.PLAIN, 24)
-        }
-
         fun start() {
             animationTimer.start()
         }
@@ -101,8 +98,14 @@ object CommentWindow {
             super.paintComponent(g)
 
             frameRate.process()
-            g.drawString(frameRate.frameRate.toString() + "FPS / " + commentManager.size.toString(), 10, 30)
-            commentManager.draw(g)
+            g.drawImage(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
+                createGraphics().apply {
+                    font = Font("Arial", Font.PLAIN, 24)
+                    drawString(frameRate.frameRate.toString() + "FPS / " + commentManager.size.toString(), 10, 30)
+                    commentManager.draw(this)
+                    dispose()
+                }
+            }, 0, 0, this)
         }
     }
 
