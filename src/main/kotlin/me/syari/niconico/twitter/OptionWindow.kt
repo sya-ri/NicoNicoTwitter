@@ -26,10 +26,12 @@ object OptionWindow {
             setLocationRelativeTo(null) // ウィンドウを中心に配置
             add(JPanel().apply {
                 add(JLabel("Twitter"))
-                val twitterIdTextField = add(JTextField(16).apply {
+                val twitterIdTextField = add(JTextField(20).apply {
                     isEnabled = false
                 }) as JTextField
                 add(TwitterAuthButton(twitterIdTextField))
+                add(JLabel("検索ワード"))
+                val twitterSearchWord = add(JTextField(20)) as JTextField
                 add(JButton("実行").apply {
                     addActionListener {
                         CommentWindow.show()
