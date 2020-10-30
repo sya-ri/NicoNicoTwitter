@@ -30,6 +30,11 @@ object OptionWindow {
                     isEnabled = false
                 }) as JTextField
                 add(TwitterAuthButton(twitterIdTextField))
+                add(JButton("実行").apply {
+                    addActionListener {
+                        CommentWindow.show()
+                    }
+                })
             })
             isVisible = true // ウィンドウを表示
         }
