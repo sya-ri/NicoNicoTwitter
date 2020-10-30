@@ -8,7 +8,12 @@ import blue.starry.penicillin.endpoints.oauth.AccessTokenResponse
 import blue.starry.penicillin.endpoints.oauth.accessToken
 import blue.starry.penicillin.endpoints.oauth.authenticateUrl
 import blue.starry.penicillin.endpoints.oauth.requestToken
-import io.ktor.http.*
+import blue.starry.penicillin.endpoints.search
+import blue.starry.penicillin.endpoints.search.search
+import blue.starry.penicillin.extensions.execute
+import blue.starry.penicillin.models.Status
+import io.ktor.http.Url
+import kotlinx.coroutines.delay
 
 object TwitterAPI {
     private val client = PenicillinClient {
@@ -32,6 +37,18 @@ object TwitterAPI {
 
         suspend fun enterPin(generateResult: GenerateResult, pin: String): AccessTokenResponse {
             return client.oauth.accessToken(generateResult.requestToken, generateResult.requestTokenSecret, pin)
+        }
+    }
+
+    object ContinuousSearch {
+        suspend fun search(word: String, handler: (List<Status>) -> Unit) {
+            var sinceId = client.search.search(word, count = 1).execute().result.searchMetadata.maxId
+            while (true) {
+                val response = client.search.search(word, count = 100, sinceId = sinceId).execute()
+                sinceId = response.result.searchMetadata.maxId
+                handler.invoke(response.result.statuses)
+                delay(5000)
+            }
         }
     }
 }
