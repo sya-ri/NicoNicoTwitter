@@ -58,6 +58,8 @@ object CommentWindow {
     }
 
     class CommentPanel(val option: Option): JPanel() {
+        val commentFont = Font("Arial", Font.PLAIN, 24)
+
         private val animationTimer = Timer(1000 / option.displayFps) {
             repaint()
         }
@@ -100,7 +102,7 @@ object CommentWindow {
             frameRate.process()
             g.drawImage(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
                 createGraphics().apply {
-                    font = Font("Arial", Font.PLAIN, 24)
+                    font = commentFont
                     drawString(frameRate.frameRate.toString() + "FPS / " + commentManager.size.toString(), 10, 30)
                     commentManager.draw(this)
                     dispose()
@@ -135,7 +137,7 @@ object CommentWindow {
                 panel: CommentPanel,
                 text: String
             ) {
-                val bounds = FontDesignMetrics.getMetrics(panel.font).getStringBounds(text, null)
+                val bounds = FontDesignMetrics.getMetrics(panel.commentFont).getStringBounds(text, null)
                 val notAvailableY = commentList.filter { panel.width < (it.x + it.width) }.map { it.y }
                 val y = sequence {
                     var y = beginY
