@@ -35,10 +35,12 @@ object OptionWindow {
                 val twitterSearchWord = add(JTextField(20)) as JTextField
                 add(JLabel("除外"))
                 val ignoreRTCheckBox = add(JCheckBox("RT")) as JCheckBox
+                val removeHashTagCheckBox = add(JCheckBox("Hashtag")) as JCheckBox
                 add(JButton("実行").apply {
                     addActionListener {
                         CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
                             ignoreRT = ignoreRTCheckBox.isSelected
+                            removeHashTag = removeHashTagCheckBox.isSelected
                         })
                     }
                 })

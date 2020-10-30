@@ -32,7 +32,13 @@ object CommentWindow {
                         }
                     }) {
                         it.forEach { status ->
-                            addComment(status.text)
+                            addComment(status.text.run {
+                                if (option.removeHashTag) {
+                                    replace("#(w*[一-龠_ぁ-んァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)".toRegex(), "")
+                                } else {
+                                    this
+                                }
+                            })
                         }
                     }
                 }
@@ -43,7 +49,8 @@ object CommentWindow {
     }
 
     class Option {
-        var ignoreRT = true
+        var ignoreRT = false
+        var removeHashTag = false
     }
 
     class CommentPanel: JPanel() {
