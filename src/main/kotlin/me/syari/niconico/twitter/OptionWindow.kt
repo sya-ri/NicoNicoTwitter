@@ -44,6 +44,12 @@ object OptionWindow {
                             val accessTokenResponse = try {
                                 TwitterAPI.AuthURLProvider.enterPin(generateResult, pin)
                             } catch (ex: PenicillinException) {
+                                JOptionPane("認証に失敗しました").apply {
+                                    createDialog("エラー").apply {
+                                        isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                                        isVisible = true // ウィンドウを表示する
+                                    }
+                                }
                                 return@launch
                             }
                             twitterIdTextField.text = "@" + accessTokenResponse.screenName
