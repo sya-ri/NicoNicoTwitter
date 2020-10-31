@@ -33,7 +33,9 @@ object CommentWindow {
                         }
                     }) {
                         it.forEach { status ->
-                            addComment(status.text)
+                            GlobalScope.launch {
+                                addComment(status.text)
+                            }
                         }
                     }
                 }
@@ -75,7 +77,7 @@ object CommentWindow {
         private inline val removeHashTagRegex
             get() = "#(w*[一-龠_ぁ-んァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)".toRegex()
 
-        fun addComment(text: String) {
+        suspend fun addComment(text: String) {
             fun String.removedIf(condition: Boolean, regex: Regex) = if (condition) replace(regex, "") else this
 
             commentManager.add(this, text.removedIf(option.removeHashTag, removeHashTagRegex))
@@ -140,10 +142,11 @@ object CommentWindow {
             val size
                 get() = commentList.size
 
-            fun add(
+            suspend fun add(
                 panel: CommentPanel,
                 text: String
             ) {
+                delay((0 until 5000L).random())
                 val bounds = FontDesignMetrics.getMetrics(panel.commentFont).getStringBounds(text, null)
                 val notAvailableY = commentList.filter { panel.width < (it.x + it.width) }.map { it.y }
                 val y = sequence {
