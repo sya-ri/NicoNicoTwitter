@@ -9,6 +9,8 @@ import sun.font.FontDesignMetrics
 import java.awt.Font
 import java.awt.Frame
 import java.awt.Graphics
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import javax.swing.JPanel
@@ -38,6 +40,11 @@ object CommentWindow {
                             }
                         }
                     }
+                }
+            })
+            addMouseListener(object: MouseAdapter() {
+                override fun mouseClicked(e: MouseEvent) {
+                    dispose() // クリックでウィンドウを閉じる
                 }
             })
             isVisible = true // ウィンドウを表示
