@@ -9,6 +9,7 @@ import sun.font.FontDesignMetrics
 import java.awt.Font
 import java.awt.Frame
 import java.awt.Graphics
+import java.awt.RenderingHints
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.image.BufferedImage
@@ -119,6 +120,7 @@ object CommentWindow {
             g.drawImage(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
                 createGraphics().apply {
                     font = commentFont
+                    setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON) // アンチエイリアスの有効
                     drawString(frameRate.frameRate.toString() + "FPS / " + commentManager.size.toString(), 10, 30)
                     commentManager.draw(this)
                     dispose()
