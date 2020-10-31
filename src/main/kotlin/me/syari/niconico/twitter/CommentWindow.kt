@@ -2,6 +2,7 @@ package me.syari.niconico.twitter
 
 import blue.starry.penicillin.extensions.models.text
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.syari.niconico.twitter.api.TwitterAPI
 import sun.font.FontDesignMetrics
@@ -11,7 +12,6 @@ import java.awt.Graphics
 import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import javax.swing.JPanel
-import javax.swing.Timer
 
 object CommentWindow {
     private var openWindow: JFrame? = null
@@ -60,14 +60,22 @@ object CommentWindow {
     class CommentPanel(val option: Option): JPanel() {
         val commentFont = Font("Arial", Font.PLAIN, 24)
 
-        private val animationTimer = Timer(1000 / option.displayFps) {
-            repaint()
-        }
-
         private val commentManager = Comment.Manager(20, 10, 30)
 
         fun start() {
-            animationTimer.start()
+            GlobalScope.launch {
+                val increaseTime = 1000.0 / option.displayFps
+                var nextTime = System.currentTimeMillis() + increaseTime
+                while (true) {
+                    try {
+                        delay(nextTime.toLong() - System.currentTimeMillis())
+                        repaint()
+                        nextTime += increaseTime
+                    } catch (ex: InterruptedException) {
+                        ex.printStackTrace()
+                    }
+                }
+            }
         }
 
         fun addComment(text: String) {
