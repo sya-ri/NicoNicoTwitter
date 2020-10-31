@@ -33,13 +33,7 @@ object CommentWindow {
                         }
                     }) {
                         it.forEach { status ->
-                            addComment(status.text.run {
-                                if (option.removeHashTag) {
-                                    replace("#(w*[一-龠_ぁ-んァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)".toRegex(), "")
-                                } else {
-                                    this
-                                }
-                            })
+                            addComment(status.text)
                         }
                     }
                 }
@@ -78,8 +72,13 @@ object CommentWindow {
             }
         }
 
+        private inline val removeHashTagRegex
+            get() = "#(w*[一-龠_ぁ-んァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)".toRegex()
+
         fun addComment(text: String) {
-            commentManager.add(this, text)
+            fun String.removedIf(condition: Boolean, regex: Regex) = if (condition) replace(regex, "") else this
+
+            commentManager.add(this, text.removedIf(option.removeHashTag, removeHashTagRegex))
         }
 
         private val frameRate = FrameRate(500)
