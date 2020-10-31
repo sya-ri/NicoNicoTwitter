@@ -169,7 +169,7 @@ object CommentWindow {
             }
 
             fun draw(g: Graphics) {
-                commentList.forEach { it.draw(g) } // 再描写
+                commentList.toList().forEach { it.draw(g) } // 再描写
                 commentList.removeIf { (it.x + it.width) < 0 } // 左端まで行って表示されなくなったら削除
             }
         }
