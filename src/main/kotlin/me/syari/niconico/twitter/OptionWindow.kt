@@ -4,89 +4,101 @@ import blue.starry.penicillin.core.exceptions.*
 import io.ktor.http.*
 import kotlinx.coroutines.*
 import me.syari.niconico.twitter.api.*
+import me.syari.niconico.twitter.util.swing.*
 import java.awt.*
 import javax.swing.*
 import javax.swing.border.*
 
 object OptionWindow {
     fun show() {
-        JFrame().apply {
+        jFrame {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE // バツボタンの処理
             title = "NicoNicoTwitter" // ウィンドウタイトル
             bounds = Rectangle(450, 150) // ウィンドウサイズを指定
             isResizable = false // サイズ変更を無効化
             setLocationRelativeTo(null) // ウィンドウを中心に配置
-            add(JPanel().apply {
+            jPanel {
                 val gridBagLayout = GridBagLayout()
-                add(JLabel("Twitter").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+
+                // y: 0
+                jLabel("Twitter") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 0
                         gridx = 0
-                        gridy = 0
                     })
-                })
-                val twitterIdTextField = add(JTextField().apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
-                        weightx = 1.0
+                }
+                val twitterIdTextField = jTextField {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 0
+                        gridx = 1
                         gridwidth = 4
                         fill = GridBagConstraints.HORIZONTAL
                     })
                     isEnabled = false
-                }) as JTextField
-                add(TwitterAuthButton(twitterIdTextField).apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
-                        gridx = 5
+                }
+                jButton("認証") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 0
+                        gridx = 5
                     })
-                })
-                add(JLabel("検索ワード").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                    addActionListener {
+                        actionTwitterAuth(twitterIdTextField)
+                    }
+                }
+
+                // y: 1
+                jLabel("検索ワード") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 1
                         gridx = 0
-                        gridy = 1
                     })
-                })
-                val twitterSearchWord = add(JTextField().apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
-                        weightx = 1.0
+                }
+                val twitterSearchWord = jTextField {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 1
+                        gridx = 1
                         gridwidth = 5
                         fill = GridBagConstraints.HORIZONTAL
                     })
-                }) as JTextField
-                add(JLabel("除外").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                }
+
+                // y: 2
+                jLabel("除外") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 2
                         gridx = 0
-                        gridy = 2
                     })
-                })
-                val ignoreRTCheckBox = add(JCheckBox("RT").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                }
+                val ignoreRTCheckBox = jCheckBox("RT") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 2
                         gridx = 1
-                        gridy = 2
                     })
-                }) as JCheckBox
-                val removeUserNameCheckbox = add(JCheckBox("Username").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                }
+                val removeUserNameCheckbox = jCheckBox("Username") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 2
                         gridx = 2
-                        gridy = 2
                     })
-                }) as JCheckBox
-                val removeHashTagCheckBox = add(JCheckBox("Hashtag").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                }
+                val removeHashTagCheckBox = jCheckBox("Hashtag") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 2
                         gridx = 3
-                        gridy = 2
                     })
-                }) as JCheckBox
-                val removeUrlCheckBox = add(JCheckBox("URL").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                }
+                val removeUrlCheckBox = jCheckBox("URL") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 2
                         gridx = 4
-                        gridy = 2
                     })
-                }) as JCheckBox
-                add(JButton("実行").apply {
-                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
-                        gridx = 3
+                }
+
+                // y: 3
+                jButton("実行") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 3
+                        gridx = 3
                     })
                     addActionListener {
                         CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
@@ -96,70 +108,65 @@ object OptionWindow {
                             removeUrl = removeUrlCheckBox.isSelected
                         })
                     }
-                })
+                }
                 layout = gridBagLayout
                 border = EmptyBorder(10, 10, 10, 10)
-            })
+            }
             isVisible = true // ウィンドウを表示
         }
     }
 
-    class TwitterAuthButton(twitterIdTextField: JTextField): JButton() {
-        init {
-            text = "認証"
-            addActionListener {
-                GlobalScope.launch {
-                    // 多重ウィンドウの防止
-                    isEnabled = false
+    private fun JButton.actionTwitterAuth(twitterIdTextField: JTextField) {
+        GlobalScope.launch {
+            // 多重ウィンドウの防止
+            isEnabled = false
 
-                    // 認証URLを発行
-                    val generateResult = try {
-                        TwitterAPI.AuthURLProvider.generate()
-                    } catch (ex: PenicillinException) {
-                        JOptionPane("URLの発行に失敗しました").apply {
-                            createDialog("エラー").apply {
-                                isAlwaysOnTop = true // ウィンドウを最前面で固定する
-                                isVisible = true // ウィンドウを表示する
-                            }
-                        }
-                        return@launch
+            // 認証URLを発行
+            val generateResult = try {
+                TwitterAPI.AuthURLProvider.generate()
+            } catch (ex: PenicillinException) {
+                JOptionPane("URLの発行に失敗しました").apply {
+                    createDialog("エラー").apply {
+                        isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                        isVisible = true // ウィンドウを表示する
                     }
-
-                    // 発行したURLを開く
-                    withContext(Dispatchers.IO) {
-                        Desktop.getDesktop().browse(generateResult.url.toURI())
-                    }
-
-                    // PINを入力
-                    val pin = JOptionPane("PINコードを入力してください").apply {
-                        wantsInput = true // 入力を受けつける
-                        createDialog("Twitter 認証").apply {
-                            isAlwaysOnTop = true // ウィンドウを最前面で固定する
-                            isVisible = true // ウィンドウを表示する
-                        }
-                    }.inputValue
-
-                    // 多重ウィンドウの防止
-                    isEnabled = true
-
-                    // 入力したピンで認証
-                    if (pin !is String) return@launch
-                    val accessTokenResponse = try {
-                        TwitterAPI.AuthURLProvider.enterPin(generateResult, pin)
-                    } catch (ex: PenicillinException) {
-                        JOptionPane("認証に失敗しました").apply {
-                            createDialog("エラー").apply {
-                                isAlwaysOnTop = true // ウィンドウを最前面で固定する
-                                isVisible = true // ウィンドウを表示する
-                            }
-                        }
-                        return@launch
-                    }
-
-                    // 認証成功時に TextField の文字列を変更
-                    twitterIdTextField.text = "@" + accessTokenResponse.screenName
                 }
+                return@launch
             }
+
+            // 発行したURLを開く
+            withContext(Dispatchers.IO) {
+                Desktop.getDesktop().browse(generateResult.url.toURI())
+            }
+
+            // PINを入力
+            val pin = JOptionPane("PINコードを入力してください").apply {
+                wantsInput = true // 入力を受けつける
+                createDialog("Twitter 認証").apply {
+                    isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                    isVisible = true // ウィンドウを表示する
+                }
+            }.inputValue
+
+            // 多重ウィンドウの防止
+            isEnabled = true
+
+            // 入力したピンで認証
+            if (pin !is String) return@launch
+            val accessTokenResponse = try {
+                TwitterAPI.AuthURLProvider.enterPin(generateResult, pin)
+            } catch (ex: PenicillinException) {
+                JOptionPane("認証に失敗しました").apply {
+                    createDialog("エラー").apply {
+                        isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                        isVisible = true // ウィンドウを表示する
+                    }
+                }
+                return@launch
+            }
+
+            // 認証成功時に TextField の文字列を変更
+            twitterIdTextField.text = "@" + accessTokenResponse.screenName
         }
     }
 }

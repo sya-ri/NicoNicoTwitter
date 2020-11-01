@@ -3,6 +3,7 @@ package me.syari.niconico.twitter
 import blue.starry.penicillin.extensions.models.*
 import kotlinx.coroutines.*
 import me.syari.niconico.twitter.api.*
+import me.syari.niconico.twitter.util.swing.*
 import sun.font.*
 import java.awt.*
 import java.awt.event.*
@@ -14,12 +15,12 @@ object CommentWindow {
 
     fun show(searchWord: String, option: Option) {
         openWindow?.dispose()
-        openWindow = JFrame().apply {
+        openWindow = jFrame {
             defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE // バツボタンの処理
             title = "NicoNicoTwitter - Comment" // ウィンドウタイトル
             isUndecorated = true // ウィンドウ上部を非表示に変更
             extendedState = Frame.MAXIMIZED_BOTH // スクリーンサイズを最大に変更
-            add(CommentPanel(option).apply {
+            commentPanel(option) {
                 start()
                 GlobalScope.launch {
                     TwitterAPI.ContinuousSearch.search(buildString {
@@ -35,7 +36,7 @@ object CommentWindow {
                         }
                     }
                 }
-            })
+            }
             addMouseListener(object: MouseAdapter() {
                 override fun mouseClicked(e: MouseEvent) {
                     dispose() // クリックでウィンドウを閉じる
@@ -57,6 +58,8 @@ object CommentWindow {
         var textColor: Color = Color.white
         var backGroundColor: Color = Color.black
     }
+
+    private inline fun Container.commentPanel(option: Option, action: CommentPanel.() -> Unit) = addT(CommentPanel(option).apply(action))
 
     class CommentPanel(val option: Option): JPanel() {
         val commentFont = Font("Arial", Font.PLAIN, 24)
