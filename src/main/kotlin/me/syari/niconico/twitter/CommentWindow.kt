@@ -48,6 +48,7 @@ object CommentWindow {
 
     class Option {
         var ignoreRT = false
+        var removeUserName = false
         var removeHashTag = false
         var removeUrl = false
         var displayFps = 60
@@ -78,6 +79,9 @@ object CommentWindow {
             }
         }
 
+        private inline val removeUserNameRegex
+            get() = "@[A-Za-z0-9_]+".toRegex()
+
         private inline val removeHashTagRegex
             get() = "#(w*[一-龠_ぁ-んァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)".toRegex()
 
@@ -89,7 +93,8 @@ object CommentWindow {
 
             commentManager.add(
                 this,
-                text.removedIf(option.removeHashTag, removeHashTagRegex)
+                text.removedIf(option.removeUserName, removeUserNameRegex)
+                    .removedIf(option.removeHashTag, removeHashTagRegex)
                     .removedIf(option.removeUrl, removeUrlRegex)
             )
         }

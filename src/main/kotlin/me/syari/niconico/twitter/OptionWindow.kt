@@ -65,15 +65,21 @@ object OptionWindow {
                         gridy = 2
                     })
                 }) as JCheckBox
-                val removeHashTagCheckBox = add(JCheckBox("Hashtag").apply {
+                val removeUserNameCheckbox = add(JCheckBox("Username").apply {
                     gridBagLayout.setConstraints(this, GridBagConstraints().apply {
                         gridx = 2
                         gridy = 2
                     })
                 }) as JCheckBox
-                val removeUrlCheckBox = add(JCheckBox("URL").apply {
+                val removeHashTagCheckBox = add(JCheckBox("Hashtag").apply {
                     gridBagLayout.setConstraints(this, GridBagConstraints().apply {
                         gridx = 3
+                        gridy = 2
+                    })
+                }) as JCheckBox
+                val removeUrlCheckBox = add(JCheckBox("URL").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 4
                         gridy = 2
                     })
                 }) as JCheckBox
@@ -85,6 +91,7 @@ object OptionWindow {
                     addActionListener {
                         CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
                             ignoreRT = ignoreRTCheckBox.isSelected
+                            removeUserName = removeUserNameCheckbox.isSelected
                             removeHashTag = removeHashTagCheckBox.isSelected
                             removeUrl = removeUrlCheckBox.isSelected
                         })
