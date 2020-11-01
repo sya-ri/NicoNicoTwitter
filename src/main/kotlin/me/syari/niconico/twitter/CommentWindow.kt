@@ -96,6 +96,7 @@ object CommentWindow {
                 text.removedIf(option.removeUserName, removeUserNameRegex)
                     .removedIf(option.removeHashTag, removeHashTagRegex)
                     .removedIf(option.removeUrl, removeUrlRegex)
+                    .replace("\\s+".toRegex(), " ")
             )
         }
 
