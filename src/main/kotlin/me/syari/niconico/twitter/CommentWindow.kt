@@ -6,10 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.syari.niconico.twitter.api.TwitterAPI
 import sun.font.FontDesignMetrics
-import java.awt.Font
-import java.awt.Frame
-import java.awt.Graphics
-import java.awt.RenderingHints
+import java.awt.*
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.image.BufferedImage
@@ -59,12 +56,14 @@ object CommentWindow {
         var displayFps = 60
         var displayDurationSecond = 5
         var maxCommentCount = 15
+        var textColor: Color = Color.white
+        var backGroundColor: Color = Color.black
     }
 
     class CommentPanel(val option: Option): JPanel() {
         val commentFont = Font("Arial", Font.PLAIN, 24)
 
-        private val commentManager = Comment.Manager(20, 10, 30)
+        private val commentManager = Comment.Manager(20, 10, 100)
 
         fun start() {
             GlobalScope.launch {
@@ -120,6 +119,9 @@ object CommentWindow {
             g.drawImage(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
                 createGraphics().apply {
                     font = commentFont
+                    color = option.textColor
+                    background = option.backGroundColor
+                    clearRect(0, 0, width, height)
                     setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON) // アンチエイリアスの有効
                     drawString(frameRate.frameRate.toString() + "FPS / " + commentManager.size.toString(), 10, 30)
                     commentManager.draw(this)
