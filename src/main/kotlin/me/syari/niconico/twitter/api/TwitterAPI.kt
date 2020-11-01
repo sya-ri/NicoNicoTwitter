@@ -1,19 +1,14 @@
 package me.syari.niconico.twitter.api
 
-import blue.starry.penicillin.PenicillinClient
-import blue.starry.penicillin.core.session.config.account
-import blue.starry.penicillin.core.session.config.application
-import blue.starry.penicillin.endpoints.oauth
-import blue.starry.penicillin.endpoints.oauth.AccessTokenResponse
-import blue.starry.penicillin.endpoints.oauth.accessToken
-import blue.starry.penicillin.endpoints.oauth.authenticateUrl
-import blue.starry.penicillin.endpoints.oauth.requestToken
-import blue.starry.penicillin.endpoints.search
-import blue.starry.penicillin.endpoints.search.search
-import blue.starry.penicillin.extensions.execute
-import blue.starry.penicillin.models.Status
+import blue.starry.penicillin.*
+import blue.starry.penicillin.core.session.config.*
+import blue.starry.penicillin.endpoints.*
+import blue.starry.penicillin.endpoints.oauth.*
+import blue.starry.penicillin.endpoints.search.*
+import blue.starry.penicillin.extensions.*
+import blue.starry.penicillin.models.*
 import io.ktor.http.Url
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 
 object TwitterAPI {
     private val client = PenicillinClient {

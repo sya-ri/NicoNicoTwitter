@@ -1,18 +1,12 @@
 package me.syari.niconico.twitter
 
-import blue.starry.penicillin.core.exceptions.PenicillinException
-import io.ktor.http.toURI
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import me.syari.niconico.twitter.api.TwitterAPI
-import java.awt.Desktop
-import java.awt.GridBagConstraints
-import java.awt.GridBagLayout
-import java.awt.Rectangle
+import blue.starry.penicillin.core.exceptions.*
+import io.ktor.http.*
+import kotlinx.coroutines.*
+import me.syari.niconico.twitter.api.*
+import java.awt.*
 import javax.swing.*
-import javax.swing.border.EmptyBorder
+import javax.swing.border.*
 
 object OptionWindow {
     fun show() {

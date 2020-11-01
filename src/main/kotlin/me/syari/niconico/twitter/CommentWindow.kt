@@ -1,17 +1,13 @@
 package me.syari.niconico.twitter
 
-import blue.starry.penicillin.extensions.models.text
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import me.syari.niconico.twitter.api.TwitterAPI
-import sun.font.FontDesignMetrics
+import blue.starry.penicillin.extensions.models.*
+import kotlinx.coroutines.*
+import me.syari.niconico.twitter.api.*
+import sun.font.*
 import java.awt.*
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseEvent
-import java.awt.image.BufferedImage
-import javax.swing.JFrame
-import javax.swing.JPanel
+import java.awt.event.*
+import java.awt.image.*
+import javax.swing.*
 
 object CommentWindow {
     private var openWindow: JFrame? = null
