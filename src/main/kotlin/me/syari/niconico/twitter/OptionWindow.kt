@@ -8,35 +8,80 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.syari.niconico.twitter.api.TwitterAPI
 import java.awt.Desktop
+import java.awt.GridBagConstraints
+import java.awt.GridBagLayout
 import java.awt.Rectangle
-import javax.swing.JButton
-import javax.swing.JCheckBox
-import javax.swing.JFrame
-import javax.swing.JLabel
-import javax.swing.JOptionPane
-import javax.swing.JPanel
-import javax.swing.JTextField
+import javax.swing.*
+import javax.swing.border.EmptyBorder
 
 object OptionWindow {
     fun show() {
         JFrame().apply {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE // バツボタンの処理
             title = "NicoNicoTwitter" // ウィンドウタイトル
-            bounds = Rectangle(450, 600) // ウィンドウサイズを指定
+            bounds = Rectangle(450, 150) // ウィンドウサイズを指定
             isResizable = false // サイズ変更を無効化
             setLocationRelativeTo(null) // ウィンドウを中心に配置
             add(JPanel().apply {
-                add(JLabel("Twitter"))
-                val twitterIdTextField = add(JTextField(20).apply {
+                val gridBagLayout = GridBagLayout()
+                add(JLabel("Twitter").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 0
+                        gridy = 0
+                    })
+                })
+                val twitterIdTextField = add(JTextField().apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        weightx = 1.0
+                        gridy = 0
+                        gridwidth = 4
+                        fill = GridBagConstraints.HORIZONTAL
+                    })
                     isEnabled = false
                 }) as JTextField
-                add(TwitterAuthButton(twitterIdTextField))
-                add(JLabel("検索ワード"))
-                val twitterSearchWord = add(JTextField(20)) as JTextField
-                add(JLabel("除外"))
-                val ignoreRTCheckBox = add(JCheckBox("RT")) as JCheckBox
-                val removeHashTagCheckBox = add(JCheckBox("Hashtag")) as JCheckBox
+                add(TwitterAuthButton(twitterIdTextField).apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 5
+                        gridy = 0
+                    })
+                })
+                add(JLabel("検索ワード").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 0
+                        gridy = 1
+                    })
+                })
+                val twitterSearchWord = add(JTextField().apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        weightx = 1.0
+                        gridy = 1
+                        gridwidth = 5
+                        fill = GridBagConstraints.HORIZONTAL
+                    })
+                }) as JTextField
+                add(JLabel("除外").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 0
+                        gridy = 2
+                    })
+                })
+                val ignoreRTCheckBox = add(JCheckBox("RT").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 1
+                        gridy = 2
+                    })
+                }) as JCheckBox
+                val removeHashTagCheckBox = add(JCheckBox("Hashtag").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 2
+                        gridy = 2
+                    })
+                }) as JCheckBox
                 add(JButton("実行").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 3
+                        gridy = 3
+                    })
                     addActionListener {
                         CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
                             ignoreRT = ignoreRTCheckBox.isSelected
@@ -44,6 +89,8 @@ object OptionWindow {
                         })
                     }
                 })
+                layout = gridBagLayout
+                border = EmptyBorder(10, 10, 10, 10)
             })
             isVisible = true // ウィンドウを表示
         }
