@@ -49,6 +49,7 @@ object CommentWindow {
     class Option {
         var ignoreRT = false
         var removeHashTag = false
+        var removeUrl = false
         var displayFps = 60
         var displayDurationSecond = 5
         var maxCommentCount = 15
@@ -80,10 +81,17 @@ object CommentWindow {
         private inline val removeHashTagRegex
             get() = "#(w*[一-龠_ぁ-んァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)".toRegex()
 
+        private inline val removeUrlRegex
+            get() = "https?://[a-zA-Z0-9/:%#&~=_!'$?().+*\\-]+".toRegex()
+
         suspend fun addComment(text: String) {
             fun String.removedIf(condition: Boolean, regex: Regex) = if (condition) replace(regex, "") else this
 
-            commentManager.add(this, text.removedIf(option.removeHashTag, removeHashTagRegex))
+            commentManager.add(
+                this,
+                text.removedIf(option.removeHashTag, removeHashTagRegex)
+                    .removedIf(option.removeUrl, removeUrlRegex)
+            )
         }
 
         private val frameRate = FrameRate(500)

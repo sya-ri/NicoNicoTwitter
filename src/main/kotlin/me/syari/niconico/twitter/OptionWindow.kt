@@ -71,6 +71,12 @@ object OptionWindow {
                         gridy = 2
                     })
                 }) as JCheckBox
+                val removeUrlCheckBox = add(JCheckBox("URL").apply {
+                    gridBagLayout.setConstraints(this, GridBagConstraints().apply {
+                        gridx = 3
+                        gridy = 2
+                    })
+                }) as JCheckBox
                 add(JButton("実行").apply {
                     gridBagLayout.setConstraints(this, GridBagConstraints().apply {
                         gridx = 3
@@ -80,6 +86,7 @@ object OptionWindow {
                         CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
                             ignoreRT = ignoreRTCheckBox.isSelected
                             removeHashTag = removeHashTagCheckBox.isSelected
+                            removeUrl = removeUrlCheckBox.isSelected
                         })
                     }
                 })
