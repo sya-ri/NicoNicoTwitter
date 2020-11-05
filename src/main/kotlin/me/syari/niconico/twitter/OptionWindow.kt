@@ -9,12 +9,13 @@ import java.awt.*
 import javax.swing.*
 import javax.swing.border.*
 
+
 object OptionWindow {
     fun show() {
         jFrame {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE // バツボタンの処理
             title = "NicoNicoTwitter" // ウィンドウタイトル
-            bounds = Rectangle(450, 150) // ウィンドウサイズを指定
+            bounds = Rectangle(450, 250) // ウィンドウサイズを指定
             isResizable = false // サイズ変更を無効化
             setLocationRelativeTo(null) // ウィンドウを中心に配置
             jPanel {
@@ -95,9 +96,62 @@ object OptionWindow {
                 }
 
                 // y: 3
-                jButton("実行") {
+                jLabel("FPS") {
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 3
+                        gridx = 0
+                    })
+                }
+                val fpsTextField = jFormatTextField(integerFormat {
+                    allowsInvalid = false
+                    minimum = 0
+                    maximum = 60
+                }) {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 3
+                        gridx = 1
+                        fill = GridBagConstraints.HORIZONTAL
+                    })
+                }
+                jLabel("表示時間") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 3
+                        gridx = 2
+                    })
+                }
+                val durationTextField = jFormatTextField(integerFormat {
+                    allowsInvalid = false
+                    minimum = 0
+                    maximum = 30
+                }) {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 3
+                        gridx = 3
+                        fill = GridBagConstraints.HORIZONTAL
+                    })
+                }
+                jLabel("最大表示数") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 3
+                        gridx = 4
+                    })
+                }
+                val maxCommentTextField = jFormatTextField(integerFormat {
+                    allowsInvalid = false
+                    minimum = 0
+                    maximum = 500
+                }) {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 3
+                        gridx = 5
+                        fill = GridBagConstraints.HORIZONTAL
+                    })
+                }
+
+                // y: 4
+                jButton("実行") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 4
                         gridx = 3
                     })
                     addActionListener {
@@ -106,6 +160,9 @@ object OptionWindow {
                             removeUserName = removeUserNameCheckbox.isSelected
                             removeHashTag = removeHashTagCheckBox.isSelected
                             removeUrl = removeUrlCheckBox.isSelected
+                            displayFps = fpsTextField.value as Int
+                            displayDurationSecond = durationTextField.value as Int
+                            maxCommentCount = maxCommentTextField.value as Int
                         })
                     }
                 }
