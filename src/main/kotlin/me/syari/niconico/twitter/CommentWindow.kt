@@ -172,7 +172,9 @@ object CommentWindow {
             ) {
                 delay((0 until 5000L).random())
                 val bounds = FontDesignMetrics.getMetrics(panel.commentFont).getStringBounds(text, null)
-                val notAvailableY = commentList.filter { panel.width < (it.x + it.width) }.map { it.y }
+                val notAvailableY = synchronized(commentList) {
+                    commentList.filter { panel.width < (it.x + it.width) }.map { it.y }
+                }
                 val y = sequence {
                     var y = beginY
                     while (true) {
@@ -182,12 +184,16 @@ object CommentWindow {
                 }.first { notAvailableY.contains(it).not() }
                 if (panel.height < y || panel.option.maxCommentCount <= size) return
                 val speedX = (panel.width + bounds.width) / panel.option.displayDurationSecond / panel.option.displayFps
-                commentList.add(Comment(marginX + bounds.width, panel.width, y, text, speedX.toInt()))
+                synchronized(commentList) {
+                    commentList.add(Comment(marginX + bounds.width, panel.width, y, text, speedX.toInt()))
+                }
             }
 
             fun draw(g: Graphics) {
-                commentList.toList().forEach { it.draw(g) } // 再描写
-                commentList.removeIf { (it.x + it.width) < 0 } // 左端まで行って表示されなくなったら削除
+                synchronized(commentList) {
+                    commentList.forEach { it.draw(g) } // 再描写
+                    commentList.removeIf { (it.x + it.width) < 0 } // 左端まで行って表示されなくなったら削除
+                }
             }
         }
     }
