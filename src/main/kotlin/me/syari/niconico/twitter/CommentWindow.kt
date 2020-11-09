@@ -47,17 +47,17 @@ object CommentWindow {
         println("open")
     }
 
-    class Option {
-        var ignoreRT = false
-        var removeUserName = false
-        var removeHashTag = false
-        var removeUrl = false
-        var displayFps = 60
-        var displayDurationSecond = 5
-        var maxCommentCount = 15
-        var textColor: Color = Color.white
-        var backGroundColor: Color = Color.black
-    }
+    class Option(
+        val ignoreRT: Boolean,
+        val removeUserName: Boolean,
+        val removeHashTag: Boolean,
+        val removeUrl: Boolean,
+        val displayFps: Int,
+        val displayDurationSecond: Int,
+        val maxCommentCount: Int,
+        val textColor: Color,
+        val backGroundColor: Color
+    )
 
     private inline fun Container.commentPanel(option: Option, action: CommentPanel.() -> Unit) = addT(CommentPanel(option).apply(action))
 

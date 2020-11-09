@@ -124,6 +124,7 @@ object OptionWindow {
                     minimum = 0
                     maximum = 60
                 }) {
+                    value = 60
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 3
                         gridx = 1
@@ -141,6 +142,7 @@ object OptionWindow {
                     minimum = 0
                     maximum = 30
                 }) {
+                    value = 5
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 3
                         gridx = 3
@@ -158,6 +160,7 @@ object OptionWindow {
                     minimum = 0
                     maximum = 500
                 }) {
+                    value = 100
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 3
                         gridx = 5
@@ -173,15 +176,17 @@ object OptionWindow {
                         gridwidth = 2
                     })
                     addActionListener {
-                        CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
-                            ignoreRT = ignoreRTCheckBox.isSelected
-                            removeUserName = removeUserNameCheckbox.isSelected
-                            removeHashTag = removeHashTagCheckBox.isSelected
-                            removeUrl = removeUrlCheckBox.isSelected
-                            displayFps = fpsTextField.value as Int
-                            displayDurationSecond = durationTextField.value as Int
-                            maxCommentCount = maxCommentTextField.value as Int
-                        })
+                        CommentWindow.show(twitterSearchWord.text, CommentWindow.Option(
+                            ignoreRTCheckBox.isSelected,
+                            removeUserNameCheckbox.isSelected,
+                            removeHashTagCheckBox.isSelected,
+                            removeUrlCheckBox.isSelected,
+                            fpsTextField.value as Int,
+                            durationTextField.value as Int,
+                            maxCommentTextField.value as Int,
+                            Color.white,
+                            Color.black
+                        ))
                     }
                 }
                 layout = gridBagLayout
