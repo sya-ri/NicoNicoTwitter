@@ -129,8 +129,8 @@ object CommentWindow {
             super.paintComponent(g)
 
             frameRate.process()
-            g.drawImage(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
-                createGraphics().apply {
+            g.drawImage(bufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB) {
+                createGraphics {
                     font = commentFont
                     color = option.textColor
                     background = option.backGroundColor
