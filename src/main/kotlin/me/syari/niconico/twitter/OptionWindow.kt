@@ -168,7 +168,7 @@ object OptionWindow {
                     })
                 }
 
-                // y: 4
+                // y: 5
                 jButton("実行") {
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 4
@@ -189,6 +189,7 @@ object OptionWindow {
                         ))
                     }
                 }
+                border = emptyBorder(10)
                 layout = gridBagLayout
             }
             isVisible = true // ウィンドウを表示
