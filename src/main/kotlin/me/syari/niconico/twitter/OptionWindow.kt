@@ -182,11 +182,9 @@ object OptionWindow {
             val generateResult = try {
                 TwitterAPI.AuthURLProvider.generate()
             } catch (ex: PenicillinException) {
-                JOptionPane("URLの発行に失敗しました").apply {
-                    createDialog("エラー").apply {
-                        isAlwaysOnTop = true // ウィンドウを最前面で固定する
-                        isVisible = true // ウィンドウを表示する
-                    }
+                messageDialog("エラー", "URLの発行に失敗しました") {
+                    isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                    isVisible = true // ウィンドウを表示する
                 }
                 return@launch
             }
@@ -197,12 +195,9 @@ object OptionWindow {
             }
 
             // PINを入力
-            val pin = JOptionPane("PINコードを入力してください").apply {
-                wantsInput = true // 入力を受けつける
-                createDialog("Twitter 認証").apply {
-                    isAlwaysOnTop = true // ウィンドウを最前面で固定する
-                    isVisible = true // ウィンドウを表示する
-                }
+            val pin = inputDialog("Twitter 認証", "PINコードを入力してください") {
+                isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                isVisible = true // ウィンドウを表示する
             }.inputValue
 
             // 多重ウィンドウの防止
@@ -213,11 +208,9 @@ object OptionWindow {
             val accessTokenResponse = try {
                 TwitterAPI.AuthURLProvider.enterPin(generateResult, pin)
             } catch (ex: PenicillinException) {
-                JOptionPane("認証に失敗しました").apply {
-                    createDialog("エラー").apply {
-                        isAlwaysOnTop = true // ウィンドウを最前面で固定する
-                        isVisible = true // ウィンドウを表示する
-                    }
+                messageDialog("エラー", "認証に失敗しました") {
+                    isAlwaysOnTop = true // ウィンドウを最前面で固定する
+                    isVisible = true // ウィンドウを表示する
                 }
                 return@launch
             }
