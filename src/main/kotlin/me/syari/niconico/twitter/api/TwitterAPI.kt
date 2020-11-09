@@ -36,13 +36,15 @@ object TwitterAPI {
     }
 
     object ContinuousSearch {
+        const val IntervalMillis = 5000L
+
         suspend fun search(word: String, handler: (List<Status>) -> Unit) {
             var sinceId = client.search.search(word, count = 1).execute().result.searchMetadata.maxId
             while (true) {
                 val response = client.search.search(word, count = 100, sinceId = sinceId).execute()
                 sinceId = response.result.searchMetadata.maxId
                 handler.invoke(response.result.statuses)
-                delay(5000)
+                delay(IntervalMillis)
             }
         }
     }

@@ -170,7 +170,7 @@ object CommentWindow {
                 panel: CommentPanel,
                 text: String
             ) {
-                delay((0 until 5000L).random())
+                delay((0 until TwitterAPI.ContinuousSearch.IntervalMillis).random())
                 val bounds = FontDesignMetrics.getMetrics(panel.commentFont).getStringBounds(text, null)
                 val notAvailableY = synchronized(commentList) {
                     commentList.filter { panel.width < (it.x + it.width) }.map { it.y }
