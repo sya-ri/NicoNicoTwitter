@@ -7,7 +7,6 @@ import me.syari.niconico.twitter.api.*
 import me.syari.niconico.twitter.util.swing.*
 import java.awt.*
 import javax.swing.*
-import javax.swing.border.*
 
 
 object OptionWindow {
@@ -15,11 +14,21 @@ object OptionWindow {
         jFrame {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE // バツボタンの処理
             title = "NicoNicoTwitter" // ウィンドウタイトル
-            bounds = Rectangle(450, 250) // ウィンドウサイズを指定
+            bounds = Rectangle(550, 170) // ウィンドウサイズを指定
             isResizable = false // サイズ変更を無効化
             setLocationRelativeTo(null) // ウィンドウを中心に配置
             jPanel {
                 val gridBagLayout = GridBagLayout()
+
+                // y: -1
+                for(i in 0..5) {
+                    add(Box.createHorizontalStrut(90).apply {
+                        gridBagLayout.setConstraints(this, gridBagConstraints {
+                            gridy = -1
+                            gridx = i
+                        })
+                    })
+                }
 
                 // y: 0
                 jLabel("Twitter") {
@@ -71,27 +80,35 @@ object OptionWindow {
                     })
                 }
                 val ignoreRTCheckBox = jCheckBox("RT") {
+                    alignmentX = 0.0F
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 2
                         gridx = 1
+                        fill = GridBagConstraints.HORIZONTAL
                     })
                 }
                 val removeUserNameCheckbox = jCheckBox("Username") {
+                    alignmentX = 0.0F
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 2
                         gridx = 2
+                        fill = GridBagConstraints.HORIZONTAL
                     })
                 }
                 val removeHashTagCheckBox = jCheckBox("Hashtag") {
+                    alignmentX = 0.0F
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 2
                         gridx = 3
+                        fill = GridBagConstraints.HORIZONTAL
                     })
                 }
                 val removeUrlCheckBox = jCheckBox("URL") {
+                    alignmentX = 0.0F
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 2
                         gridx = 4
+                        fill = GridBagConstraints.HORIZONTAL
                     })
                 }
 
@@ -152,7 +169,8 @@ object OptionWindow {
                 jButton("実行") {
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 4
-                        gridx = 3
+                        gridx = 2
+                        gridwidth = 2
                     })
                     addActionListener {
                         CommentWindow.show(twitterSearchWord.text, CommentWindow.Option().apply {
@@ -167,7 +185,6 @@ object OptionWindow {
                     }
                 }
                 layout = gridBagLayout
-                border = EmptyBorder(10, 10, 10, 10)
             }
             isVisible = true // ウィンドウを表示
         }
