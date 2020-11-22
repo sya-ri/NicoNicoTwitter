@@ -44,7 +44,6 @@ object CommentWindow {
             })
             isVisible = true // ウィンドウを表示
         }
-        println("open")
     }
 
     class Option(
@@ -64,7 +63,7 @@ object CommentWindow {
     class CommentPanel(val option: Option): JPanel() {
         val commentFont = Font(Font.SANS_SERIF, Font.PLAIN, 24)
 
-        private val commentManager = Comment.Manager(20, 10, 100)
+        private val commentManager = Comment.Manager(20, 10, 50)
 
         fun start() {
             GlobalScope.launch {
@@ -103,32 +102,9 @@ object CommentWindow {
             )
         }
 
-        private val frameRate = FrameRate(500)
-        class FrameRate(private val updateTimeMillis: Int) {
-            private var lastTime = System.currentTimeMillis()
-            private var count = 0
-
-            var frameRate = 0f
-                private set
-
-            fun process(): Boolean {
-                val currentTime = System.currentTimeMillis()
-                count ++
-                return if (updateTimeMillis <= currentTime - lastTime) {
-                    frameRate = (count * 1000).toFloat() / (currentTime - lastTime).toFloat()
-                    lastTime = currentTime
-                    count = 0
-                    true
-                } else {
-                    false
-                }
-            }
-        }
-
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
 
-            frameRate.process()
             g.drawImage(bufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB) {
                 createGraphics {
                     font = commentFont
@@ -136,7 +112,6 @@ object CommentWindow {
                     background = option.backGroundColor
                     clearRect(0, 0, width, height)
                     setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON) // アンチエイリアスの有効
-                    drawString(frameRate.frameRate.toString() + "FPS / " + commentManager.size.toString(), 10, 30)
                     commentManager.draw(this)
                     dispose()
                 }
