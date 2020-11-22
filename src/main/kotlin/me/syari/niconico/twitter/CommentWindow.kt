@@ -62,7 +62,7 @@ object CommentWindow {
     private inline fun Container.commentPanel(option: Option, action: CommentPanel.() -> Unit) = addT(CommentPanel(option).apply(action))
 
     class CommentPanel(val option: Option): JPanel() {
-        val commentFont = Font("Arial", Font.PLAIN, 24)
+        val commentFont = Font(Font.SANS_SERIF, Font.PLAIN, 24)
 
         private val commentManager = Comment.Manager(20, 10, 100)
 
