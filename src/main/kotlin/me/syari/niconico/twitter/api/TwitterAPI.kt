@@ -41,10 +41,10 @@ object TwitterAPI {
         suspend fun search(word: String, handler: (List<Status>) -> Unit) {
             var sinceId = client.search.search(word, count = 1).execute().result.searchMetadata.maxId
             while (true) {
+                delay(IntervalMillis)
                 val response = client.search.search(word, count = 100, sinceId = sinceId).execute()
                 sinceId = response.result.searchMetadata.maxId
                 handler.invoke(response.result.statuses)
-                delay(IntervalMillis)
             }
         }
     }
