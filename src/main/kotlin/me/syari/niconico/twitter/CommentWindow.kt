@@ -99,7 +99,8 @@ object CommentWindow {
         suspend fun addComment(text: String) {
             fun String.removedIf(condition: Boolean, regex: Regex) = if (condition) replace(regex, "") else this
 
-            val isHighlight = option.highlightWord?.let { text.contains(it) } ?: false
+            val highlightWord = option.highlightWord
+            val isHighlight = highlightWord?.let { it.isNotBlank() && text.contains(it) } ?: false
             val color = if (isHighlight) option.highlightColor else option.textColor
             commentManager.add(
                 this,
