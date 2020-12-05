@@ -55,7 +55,9 @@ object CommentWindow {
         val displayDurationSecond: Int,
         val maxCommentCount: Int,
         val textColor: Color,
-        val backGroundColor: Color
+        val backGroundColor: Color,
+        val highlightWord: String?,
+        val highlightColor: Color
     )
 
     private inline fun Container.commentPanel(option: Option, action: CommentPanel.() -> Unit) = addT(CommentPanel(option).apply(action))
@@ -93,12 +95,15 @@ object CommentWindow {
         suspend fun addComment(text: String) {
             fun String.removedIf(condition: Boolean, regex: Regex) = if (condition) replace(regex, "") else this
 
+            val isHighlight = option.highlightWord?.let { text.contains(it) } ?: false
+            val color = if (isHighlight) option.highlightColor else option.textColor
             commentManager.add(
                 this,
                 text.removedIf(option.removeUserName, removeUserNameRegex)
                     .removedIf(option.removeHashTag, removeHashTagRegex)
                     .removedIf(option.removeUrl, removeUrlRegex)
-                    .replace("\\s+".toRegex(), " ")
+                    .replace("\\s+".toRegex(), " "),
+                color
             )
         }
 
@@ -108,7 +113,6 @@ object CommentWindow {
             g.drawImage(bufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB) {
                 createGraphics {
                     font = commentFont
-                    color = option.textColor
                     background = option.backGroundColor
                     clearRect(0, 0, width, height)
                     setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON) // アンチエイリアスの有効
@@ -124,9 +128,11 @@ object CommentWindow {
         private var x: Int,
         private val y: Int,
         private val text: String,
+        private val color: Color,
         private val speedX: Int
     ) {
         fun draw(g: Graphics) {
+            g.color = color
             g.drawString(text, x, y)
             x -= speedX
         }
@@ -143,7 +149,8 @@ object CommentWindow {
 
             suspend fun add(
                 panel: CommentPanel,
-                text: String
+                text: String,
+                color: Color
             ) {
                 delay((0 until TwitterAPI.ContinuousSearch.IntervalMillis).random())
                 val bounds = FontDesignMetrics.getMetrics(panel.commentFont).getStringBounds(text, null)
@@ -160,7 +167,7 @@ object CommentWindow {
                 if (panel.height < y || panel.option.maxCommentCount <= size) return
                 val speedX = (panel.width + bounds.width) / panel.option.displayDurationSecond / panel.option.displayFps
                 synchronized(commentList) {
-                    commentList.add(Comment(marginX + bounds.width, panel.width, y, text, speedX.toInt()))
+                    commentList.add(Comment(marginX + bounds.width, panel.width, y, text, color, speedX.toInt()))
                 }
             }
 

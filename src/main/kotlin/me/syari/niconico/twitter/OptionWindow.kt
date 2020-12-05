@@ -67,7 +67,21 @@ object OptionWindow {
                     gridBagLayout.setConstraints(this, gridBagConstraints {
                         gridy = 1
                         gridx = 1
-                        gridwidth = 5
+                        gridwidth = 2
+                        fill = GridBagConstraints.HORIZONTAL
+                    })
+                }
+                jLabel("強調ワード") {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 1
+                        gridx = 3
+                    })
+                }
+                val highlightWord = jTextField {
+                    gridBagLayout.setConstraints(this, gridBagConstraints {
+                        gridy = 1
+                        gridx = 4
+                        gridwidth = 2
                         fill = GridBagConstraints.HORIZONTAL
                     })
                 }
@@ -185,7 +199,9 @@ object OptionWindow {
                             durationTextField.value as Int,
                             maxCommentTextField.value as Int,
                             Color.white,
-                            Color.black
+                            Color.black,
+                            highlightWord.text,
+                            Color.yellow
                         ))
                     }
                 }
