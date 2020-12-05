@@ -13,7 +13,7 @@ object OptionWindow {
         jFrame {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE // バツボタンの処理
             title = "NicoNicoTwitter" // ウィンドウタイトル
-            bounds = Rectangle(550, 170) // ウィンドウサイズを指定
+            bounds = Rectangle(550, 220) // ウィンドウサイズを指定
             isResizable = false // サイズ変更を無効化
             setLocationRelativeTo(null) // ウィンドウを中心に配置
             jPanel {
@@ -167,6 +167,7 @@ object OptionWindow {
                 }
 
                 // y: 3
+
                 jLabel("FPS") {
                     gridBagLayout.setConstraints(
                         this,
@@ -246,12 +247,74 @@ object OptionWindow {
                     )
                 }
 
+                // y: 4
+                jLabel("背景色") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 4
+                            gridx = 0
+                        }
+                    )
+                }
+                val backgroundColor = jTextField {
+                    text = "#000000"
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 4
+                            gridx = 1
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
+                }
+                jLabel("文字色") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 4
+                            gridx = 2
+                        }
+                    )
+                }
+                val textColor = jTextField {
+                    text = "#FFFFFF"
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 4
+                            gridx = 3
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
+                }
+                jLabel("強調色") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 4
+                            gridx = 4
+                        }
+                    )
+                }
+                val highlightColor = jTextField {
+                    text = "#FFFF00"
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 4
+                            gridx = 5
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
+                }
+
                 // y: 5
                 jButton("実行") {
                     gridBagLayout.setConstraints(
                         this,
                         gridBagConstraints {
-                            gridy = 4
+                            gridy = 5
                             gridx = 2
                             gridwidth = 2
                         }
@@ -267,10 +330,10 @@ object OptionWindow {
                                 fpsTextField.value as Int,
                                 durationTextField.value as Int,
                                 maxCommentTextField.value as Int,
-                                Color.white,
-                                Color.black,
+                                textColor.text.toColor() ?: Color.white,
+                                backgroundColor.text.toColor() ?: Color.black,
                                 highlightWord.text,
-                                Color.yellow
+                                highlightColor.text.toColor() ?: Color.yellow
                             )
                         )
                     }
@@ -278,6 +341,7 @@ object OptionWindow {
                 border = emptyBorder(10)
                 layout = gridBagLayout
             }
+            pack()
             isVisible = true // ウィンドウを表示
         }
     }
