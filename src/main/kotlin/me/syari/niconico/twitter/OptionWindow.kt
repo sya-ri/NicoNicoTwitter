@@ -319,6 +319,12 @@ object OptionWindow {
                         }
                     )
                     addActionListener {
+                        if (twitterIdTextField.text.isNullOrEmpty()) {
+                            messageDialog("エラー", "ツイッター認証されていません") {
+                                isVisible = true
+                            }
+                            return@addActionListener
+                        }
                         if (twitterSearchWord.text.isNullOrEmpty()) {
                             messageDialog("エラー", "検索ワードが入力されていません") {
                                 isVisible = true
