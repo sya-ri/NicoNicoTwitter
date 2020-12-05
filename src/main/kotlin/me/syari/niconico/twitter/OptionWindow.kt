@@ -319,6 +319,27 @@ object OptionWindow {
                         }
                     )
                     addActionListener {
+                        if (twitterSearchWord.text.isNullOrEmpty()) {
+                            messageDialog("エラー", "検索ワードが入力されていません") {
+                                isVisible = true
+                            }
+                            return@addActionListener
+                        }
+                        val textColorValue = textColor.text.toColor() ?: return@addActionListener run {
+                            messageDialog("エラー", "文字色が不正です") {
+                                isVisible = true
+                            }
+                        }
+                        val backgroundColorValue = backgroundColor.text.toColor() ?: return@addActionListener run {
+                            messageDialog("エラー", "背景色が不正です") {
+                                isVisible = true
+                            }
+                        }
+                        val highlightColorValue = highlightColor.text.toColor() ?: return@addActionListener run {
+                            messageDialog("エラー", "強調色が不正です") {
+                                isVisible = true
+                            }
+                        }
                         CommentWindow.show(
                             twitterSearchWord.text,
                             CommentWindow.Option(
@@ -329,10 +350,10 @@ object OptionWindow {
                                 fpsTextField.value as Int,
                                 durationTextField.value as Int,
                                 maxCommentTextField.value as Int,
-                                textColor.text.toColor() ?: Color.white,
-                                backgroundColor.text.toColor() ?: Color.black,
+                                textColorValue,
+                                backgroundColorValue,
                                 highlightWord.text,
-                                highlightColor.text.toColor() ?: Color.yellow
+                                highlightColorValue
                             )
                         )
                     }
