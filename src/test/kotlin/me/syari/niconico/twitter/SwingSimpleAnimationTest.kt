@@ -1,11 +1,8 @@
 package me.syari.niconico.twitter
 
-import sun.font.FontDesignMetrics
-import java.awt.Graphics
-import java.awt.Rectangle
-import javax.swing.JFrame
-import javax.swing.JPanel
-import javax.swing.Timer
+import sun.font.*
+import java.awt.*
+import javax.swing.*
 
 object SwingSimpleAnimationTest {
     @JvmStatic
@@ -15,9 +12,11 @@ object SwingSimpleAnimationTest {
             title = "SwingSimpleAnimationTest" // ウィンドウタイトル
             bounds = Rectangle(900, 600) // ウィンドウサイズを指定
             setLocationRelativeTo(null) // ウィンドウを中心に配置
-            add(AnimationPanel().apply {
-                start()
-            })
+            add(
+                AnimationPanel().apply {
+                    start()
+                }
+            )
             isVisible = true // ウィンドウを表示
         }
     }

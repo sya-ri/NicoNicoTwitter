@@ -8,7 +8,6 @@ import me.syari.niconico.twitter.util.swing.*
 import java.awt.*
 import javax.swing.*
 
-
 object OptionWindow {
     fun show() {
         jFrame {
@@ -21,36 +20,50 @@ object OptionWindow {
                 val gridBagLayout = GridBagLayout()
 
                 // y: -1
-                for(i in 0..5) {
-                    add(Box.createHorizontalStrut(90).apply {
-                        gridBagLayout.setConstraints(this, gridBagConstraints {
-                            gridy = -1
-                            gridx = i
-                        })
-                    })
+                for (i in 0..5) {
+                    add(
+                        Box.createHorizontalStrut(90).apply {
+                            gridBagLayout.setConstraints(
+                                this,
+                                gridBagConstraints {
+                                    gridy = -1
+                                    gridx = i
+                                }
+                            )
+                        }
+                    )
                 }
 
                 // y: 0
                 jLabel("Twitter") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 0
-                        gridx = 0
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 0
+                            gridx = 0
+                        }
+                    )
                 }
                 val twitterIdTextField = jTextField {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 0
-                        gridx = 1
-                        gridwidth = 4
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 0
+                            gridx = 1
+                            gridwidth = 4
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                     isEnabled = false
                 }
                 jButton("認証") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 0
-                        gridx = 5
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 0
+                            gridx = 5
+                        }
+                    )
                     addActionListener {
                         actionTwitterAuth(twitterIdTextField)
                     }
@@ -58,151 +71,208 @@ object OptionWindow {
 
                 // y: 1
                 jLabel("検索ワード") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 1
-                        gridx = 0
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 1
+                            gridx = 0
+                        }
+                    )
                 }
                 val twitterSearchWord = jTextField {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 1
-                        gridx = 1
-                        gridwidth = 2
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 1
+                            gridx = 1
+                            gridwidth = 2
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
                 jLabel("強調ワード") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 1
-                        gridx = 3
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 1
+                            gridx = 3
+                        }
+                    )
                 }
                 val highlightWord = jTextField {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 1
-                        gridx = 4
-                        gridwidth = 2
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 1
+                            gridx = 4
+                            gridwidth = 2
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
 
                 // y: 2
                 jLabel("除外") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 2
-                        gridx = 0
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 2
+                            gridx = 0
+                        }
+                    )
                 }
                 val ignoreRTCheckBox = jCheckBox("RT") {
                     alignmentX = 0.0F
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 2
-                        gridx = 1
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 2
+                            gridx = 1
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
                 val removeUserNameCheckbox = jCheckBox("Username") {
                     alignmentX = 0.0F
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 2
-                        gridx = 2
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 2
+                            gridx = 2
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
                 val removeHashTagCheckBox = jCheckBox("Hashtag") {
                     alignmentX = 0.0F
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 2
-                        gridx = 3
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 2
+                            gridx = 3
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
                 val removeUrlCheckBox = jCheckBox("URL") {
                     alignmentX = 0.0F
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 2
-                        gridx = 4
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 2
+                            gridx = 4
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
 
                 // y: 3
                 jLabel("FPS") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 3
-                        gridx = 0
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 3
+                            gridx = 0
+                        }
+                    )
                 }
-                val fpsTextField = jFormatTextField(integerFormat {
-                    allowsInvalid = false
-                    minimum = 0
-                    maximum = 60
-                }) {
+                val fpsTextField = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                        minimum = 0
+                        maximum = 60
+                    }
+                ) {
                     value = 60
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 3
-                        gridx = 1
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 3
+                            gridx = 1
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
                 jLabel("表示時間") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 3
-                        gridx = 2
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 3
+                            gridx = 2
+                        }
+                    )
                 }
-                val durationTextField = jFormatTextField(integerFormat {
-                    allowsInvalid = false
-                    minimum = 0
-                    maximum = 30
-                }) {
+                val durationTextField = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                        minimum = 0
+                        maximum = 30
+                    }
+                ) {
                     value = 5
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 3
-                        gridx = 3
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 3
+                            gridx = 3
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
                 jLabel("最大表示数") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 3
-                        gridx = 4
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 3
+                            gridx = 4
+                        }
+                    )
                 }
-                val maxCommentTextField = jFormatTextField(integerFormat {
-                    allowsInvalid = false
-                    minimum = 0
-                    maximum = 500
-                }) {
+                val maxCommentTextField = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                        minimum = 0
+                        maximum = 500
+                    }
+                ) {
                     value = 100
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 3
-                        gridx = 5
-                        fill = GridBagConstraints.HORIZONTAL
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 3
+                            gridx = 5
+                            fill = GridBagConstraints.HORIZONTAL
+                        }
+                    )
                 }
 
                 // y: 5
                 jButton("実行") {
-                    gridBagLayout.setConstraints(this, gridBagConstraints {
-                        gridy = 4
-                        gridx = 2
-                        gridwidth = 2
-                    })
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 4
+                            gridx = 2
+                            gridwidth = 2
+                        }
+                    )
                     addActionListener {
-                        CommentWindow.show(twitterSearchWord.text, CommentWindow.Option(
-                            ignoreRTCheckBox.isSelected,
-                            removeUserNameCheckbox.isSelected,
-                            removeHashTagCheckBox.isSelected,
-                            removeUrlCheckBox.isSelected,
-                            fpsTextField.value as Int,
-                            durationTextField.value as Int,
-                            maxCommentTextField.value as Int,
-                            Color.white,
-                            Color.black,
-                            highlightWord.text,
-                            Color.yellow
-                        ))
+                        CommentWindow.show(
+                            twitterSearchWord.text,
+                            CommentWindow.Option(
+                                ignoreRTCheckBox.isSelected,
+                                removeUserNameCheckbox.isSelected,
+                                removeHashTagCheckBox.isSelected,
+                                removeUrlCheckBox.isSelected,
+                                fpsTextField.value as Int,
+                                durationTextField.value as Int,
+                                maxCommentTextField.value as Int,
+                                Color.white,
+                                Color.black,
+                                highlightWord.text,
+                                Color.yellow
+                            )
+                        )
                     }
                 }
                 border = emptyBorder(10)

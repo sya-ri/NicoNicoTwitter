@@ -23,12 +23,14 @@ object CommentWindow {
             commentPanel(option) {
                 start()
                 GlobalScope.launch {
-                    TwitterAPI.ContinuousSearch.search(buildString {
-                        append(searchWord)
-                        if (option.ignoreRT) {
-                            append(" -RT")
+                    TwitterAPI.ContinuousSearch.search(
+                        buildString {
+                            append(searchWord)
+                            if (option.ignoreRT) {
+                                append(" -RT")
+                            }
                         }
-                    }) {
+                    ) {
                         it.forEach { status ->
                             GlobalScope.launch {
                                 addComment(status.text)
@@ -37,11 +39,13 @@ object CommentWindow {
                     }
                 }
             }
-            addMouseListener(object: MouseAdapter() {
-                override fun mouseClicked(e: MouseEvent) {
-                    dispose() // クリックでウィンドウを閉じる
+            addMouseListener(
+                object: MouseAdapter() {
+                    override fun mouseClicked(e: MouseEvent) {
+                        dispose() // クリックでウィンドウを閉じる
+                    }
                 }
-            })
+            )
             isVisible = true // ウィンドウを表示
         }
     }
@@ -110,16 +114,24 @@ object CommentWindow {
         override fun paintComponent(g: Graphics) {
             super.paintComponent(g)
 
-            g.drawImage(bufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB) {
-                createGraphics {
-                    font = commentFont
-                    background = option.backGroundColor
-                    clearRect(0, 0, width, height)
-                    setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON) // アンチエイリアスの有効
-                    commentManager.draw(this)
-                    dispose()
-                }
-            }, 0, 0, this)
+            g.drawImage(
+                bufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB) {
+                    createGraphics {
+                        font = commentFont
+                        background = option.backGroundColor
+                        clearRect(0, 0, width, height)
+                        setRenderingHint(
+                            RenderingHints.KEY_TEXT_ANTIALIASING,
+                            RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+                        ) // アンチエイリアスの有効
+                        commentManager.draw(this)
+                        dispose()
+                    }
+                },
+                0,
+                0,
+                this
+            )
         }
     }
 

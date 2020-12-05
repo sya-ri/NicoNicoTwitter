@@ -1,21 +1,15 @@
 package me.syari.niconico.twitter
 
-import blue.starry.penicillin.PenicillinClient
-import blue.starry.penicillin.core.session.ApiClient
-import blue.starry.penicillin.core.session.config.account
-import blue.starry.penicillin.core.session.config.application
-import blue.starry.penicillin.endpoints.oauth
-import blue.starry.penicillin.endpoints.oauth.accessToken
-import blue.starry.penicillin.endpoints.oauth.authenticateUrl
-import blue.starry.penicillin.endpoints.oauth.requestToken
-import blue.starry.penicillin.endpoints.search
-import blue.starry.penicillin.endpoints.search.search
-import blue.starry.penicillin.extensions.execute
-import blue.starry.penicillin.extensions.models.text
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import me.syari.niconico.twitter.api.CONSUMER_API_KEY
-import me.syari.niconico.twitter.api.CONSUMER_API_SECRET_KEY
+import blue.starry.penicillin.*
+import blue.starry.penicillin.core.session.*
+import blue.starry.penicillin.core.session.config.*
+import blue.starry.penicillin.endpoints.*
+import blue.starry.penicillin.endpoints.oauth.*
+import blue.starry.penicillin.endpoints.search.*
+import blue.starry.penicillin.extensions.*
+import blue.starry.penicillin.extensions.models.*
+import kotlinx.coroutines.*
+import me.syari.niconico.twitter.api.*
 
 object PenicillinTest {
     object APIConnect {
@@ -89,7 +83,7 @@ object PenicillinTest {
             }
         }
 
-        private suspend fun ApiClient.mostRecentId(query: String): Long? {
+        private suspend fun ApiClient.mostRecentId(query: String): Long {
             val response = search.search(query, count = 1).execute()
             return response.result.searchMetadata.maxId
         }
