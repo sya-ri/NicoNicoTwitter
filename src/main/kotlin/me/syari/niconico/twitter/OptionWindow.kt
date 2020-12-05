@@ -121,7 +121,7 @@ object OptionWindow {
                         }
                     )
                 }
-                val ignoreRTCheckBox = jCheckBox("RT") {
+                val ignoreRTCheckBox = jCheckBox("リツイート") {
                     alignmentX = 0.0F
                     gridBagLayout.setConstraints(
                         this,
@@ -132,7 +132,7 @@ object OptionWindow {
                         }
                     )
                 }
-                val removeUserNameCheckbox = jCheckBox("Username") {
+                val removeUserNameCheckbox = jCheckBox("ユーザー名") {
                     alignmentX = 0.0F
                     gridBagLayout.setConstraints(
                         this,
@@ -143,7 +143,7 @@ object OptionWindow {
                         }
                     )
                 }
-                val removeHashTagCheckBox = jCheckBox("Hashtag") {
+                val removeHashTagCheckBox = jCheckBox("ハッシュタグ") {
                     alignmentX = 0.0F
                     gridBagLayout.setConstraints(
                         this,
@@ -167,7 +167,6 @@ object OptionWindow {
                 }
 
                 // y: 3
-
                 jLabel("FPS") {
                     gridBagLayout.setConstraints(
                         this,
