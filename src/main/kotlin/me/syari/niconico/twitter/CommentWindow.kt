@@ -67,7 +67,10 @@ object CommentWindow {
         val textColor: Color,
         val backGroundColor: Color,
         val highlightWord: String?,
-        val highlightColor: Color
+        val highlightColor: Color,
+        val marginX: Int,
+        val marginY: Int,
+        val beginY: Int
     )
 
     private inline fun Container.commentPanel(option: Option, action: CommentPanel.() -> Unit) = addT(CommentPanel(option).apply(action))
@@ -75,7 +78,7 @@ object CommentWindow {
     class CommentPanel(val option: Option) : JPanel() {
         val commentFont = Font(Font.SANS_SERIF, Font.PLAIN, 24)
 
-        val commentManager = Comment.Manager(20, 10, 50)
+        val commentManager = Comment.Manager(option.marginX, option.marginY, option.beginY)
 
         fun start() {
             GlobalScope.launch {

@@ -331,11 +331,91 @@ object OptionWindow {
                 }
 
                 // y: 5
-                jButton("実行") {
+                jLabel("コメント余白 X") {
                     gridBagLayout.setConstraints(
                         this,
                         gridBagConstraints {
                             gridy = 5
+                            gridx = 0
+                            insets = insets(3)
+                        }
+                    )
+                }
+                val marginX = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                    }
+                ) {
+                    value = 20
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 5
+                            gridx = 1
+                            fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
+                        }
+                    )
+                }
+                jLabel("コメント余白 Y") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 5
+                            gridx = 2
+                            insets = insets(3)
+                        }
+                    )
+                }
+                val marginY = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                    }
+                ) {
+                    value = 10
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 5
+                            gridx = 3
+                            fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
+                        }
+                    )
+                }
+                jLabel("コメント開始 Y") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 5
+                            gridx = 4
+                            insets = insets(3)
+                        }
+                    )
+                }
+                val beginY = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                    }
+                ) {
+                    value = 50
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 5
+                            gridx = 5
+                            fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
+                        }
+                    )
+                }
+
+                // y: 6
+                jButton("実行") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 6
                             gridx = 2
                             gridwidth = 2
                             insets = insets(3)
@@ -382,7 +462,10 @@ object OptionWindow {
                                 textColorValue,
                                 backgroundColorValue,
                                 highlightWord.text,
-                                highlightColorValue
+                                highlightColorValue,
+                                marginX.value as Int,
+                                marginY.value as Int,
+                                beginY.value as Int
                             )
                         )
                     }
