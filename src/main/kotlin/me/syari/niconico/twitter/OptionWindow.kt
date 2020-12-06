@@ -456,16 +456,16 @@ object OptionWindow {
                                 removeUserNameCheckbox.isSelected,
                                 removeHashTagCheckBox.isSelected,
                                 removeUrlCheckBox.isSelected,
-                                fpsTextField.value as Int,
-                                durationTextField.value as Int,
-                                maxCommentTextField.value as Int,
+                                fpsTextField.value.toString().toInt(),
+                                durationTextField.value.toString().toInt(),
+                                maxCommentTextField.value.toString().toInt(),
                                 textColorValue,
                                 backgroundColorValue,
                                 highlightWord.text,
                                 highlightColorValue,
-                                marginX.value as Int,
-                                marginY.value as Int,
-                                beginY.value as Int
+                                marginX.value.toString().toInt(),
+                                marginY.value.toString().toInt(),
+                                beginY.value.toString().toInt()
                             )
                         )
                     }
