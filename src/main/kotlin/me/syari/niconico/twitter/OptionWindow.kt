@@ -13,9 +13,7 @@ object OptionWindow {
         jFrame {
             defaultCloseOperation = JFrame.EXIT_ON_CLOSE // バツボタンの処理
             title = "NicoNicoTwitter" // ウィンドウタイトル
-            bounds = Rectangle(550, 220) // ウィンドウサイズを指定
             isResizable = false // サイズ変更を無効化
-            setLocationRelativeTo(null) // ウィンドウを中心に配置
             jPanel {
                 val gridBagLayout = GridBagLayout()
 
@@ -392,7 +390,8 @@ object OptionWindow {
                 border = emptyBorder(10)
                 layout = gridBagLayout
             }
-            pack()
+            pack() // ウィンドウサイズを整える
+            setLocationRelativeTo(null) // ウィンドウを中心に配置
             isVisible = true // ウィンドウを表示
         }
     }
