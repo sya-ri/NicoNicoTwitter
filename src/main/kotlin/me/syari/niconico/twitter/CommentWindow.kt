@@ -46,7 +46,7 @@ object CommentWindow {
                 }
             }
             addMouseListener(
-                object: MouseAdapter() {
+                object : MouseAdapter() {
                     override fun mouseClicked(e: MouseEvent) {
                         dispose() // クリックでウィンドウを閉じる
                     }
@@ -72,7 +72,7 @@ object CommentWindow {
 
     private inline fun Container.commentPanel(option: Option, action: CommentPanel.() -> Unit) = addT(CommentPanel(option).apply(action))
 
-    class CommentPanel(val option: Option): JPanel() {
+    class CommentPanel(val option: Option) : JPanel() {
         val commentFont = Font(Font.SANS_SERIF, Font.PLAIN, 24)
 
         val commentManager = Comment.Manager(20, 10, 50)

@@ -1,6 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.*
-import org.jetbrains.kotlin.gradle.tasks.*
-
 plugins {
     kotlin("jvm") version "1.4.20"
     id("com.github.johnrengelman.shadow") version "6.1.0"
@@ -23,7 +20,7 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
@@ -37,6 +34,6 @@ tasks.withType<Jar> {
     }
 }
 
-tasks.withType<ShadowJar> {
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     archiveFileName.set("${project.name}-${project.version}.jar")
 }

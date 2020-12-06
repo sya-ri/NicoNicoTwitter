@@ -21,7 +21,7 @@ object SwingSimpleAnimationTest {
         }
     }
 
-    class AnimationPanel: JPanel() {
+    class AnimationPanel : JPanel() {
         private val animationTimer = Timer(10) {
             repaint()
         }
