@@ -411,11 +411,39 @@ object OptionWindow {
                 }
 
                 // y: 6
-                jButton("実行") {
+                jLabel("文字サイズ") {
                     gridBagLayout.setConstraints(
                         this,
                         gridBagConstraints {
                             gridy = 6
+                            gridx = 0
+                            insets = insets(3)
+                        }
+                    )
+                }
+                val commentSize = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                    }
+                ) {
+                    value = 36
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 6
+                            gridx = 1
+                            fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
+                        }
+                    )
+                }
+
+                // y: 7
+                jButton("実行") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 7
                             gridx = 2
                             gridwidth = 2
                             insets = insets(3)
@@ -465,7 +493,8 @@ object OptionWindow {
                                 highlightColorValue,
                                 marginX.value.toString().toInt(),
                                 marginY.value.toString().toInt(),
-                                beginY.value.toString().toInt()
+                                beginY.value.toString().toInt(),
+                                commentSize.value.toString().toInt()
                             )
                         )
                     }
