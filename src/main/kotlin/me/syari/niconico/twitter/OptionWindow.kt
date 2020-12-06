@@ -41,6 +41,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 0
                             gridx = 0
+                            insets = insets(3)
                         }
                     )
                 }
@@ -52,6 +53,7 @@ object OptionWindow {
                             gridx = 1
                             gridwidth = 4
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                     isEnabled = false
@@ -62,6 +64,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 0
                             gridx = 5
+                            insets = insets(3)
                         }
                     )
                     addActionListener {
@@ -76,6 +79,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 1
                             gridx = 0
+                            insets = insets(3)
                         }
                     )
                 }
@@ -87,6 +91,7 @@ object OptionWindow {
                             gridx = 1
                             gridwidth = 2
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -96,6 +101,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 1
                             gridx = 3
+                            insets = insets(3)
                         }
                     )
                 }
@@ -107,6 +113,7 @@ object OptionWindow {
                             gridx = 4
                             gridwidth = 2
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -118,6 +125,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 2
                             gridx = 0
+                            insets = insets(3)
                         }
                     )
                 }
@@ -129,6 +137,7 @@ object OptionWindow {
                             gridy = 2
                             gridx = 1
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -140,6 +149,7 @@ object OptionWindow {
                             gridy = 2
                             gridx = 2
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -151,6 +161,7 @@ object OptionWindow {
                             gridy = 2
                             gridx = 3
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -162,6 +173,7 @@ object OptionWindow {
                             gridy = 2
                             gridx = 4
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -173,6 +185,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 3
                             gridx = 0
+                            insets = insets(3)
                         }
                     )
                 }
@@ -190,6 +203,7 @@ object OptionWindow {
                             gridy = 3
                             gridx = 1
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -199,6 +213,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 3
                             gridx = 2
+                            insets = insets(3)
                         }
                     )
                 }
@@ -216,6 +231,7 @@ object OptionWindow {
                             gridy = 3
                             gridx = 3
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -225,6 +241,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 3
                             gridx = 4
+                            insets = insets(3)
                         }
                     )
                 }
@@ -242,6 +259,7 @@ object OptionWindow {
                             gridy = 3
                             gridx = 5
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -253,6 +271,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 4
                             gridx = 0
+                            insets = insets(3)
                         }
                     )
                 }
@@ -264,6 +283,7 @@ object OptionWindow {
                             gridy = 4
                             gridx = 1
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -273,6 +293,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 4
                             gridx = 2
+                            insets = insets(3)
                         }
                     )
                 }
@@ -284,6 +305,7 @@ object OptionWindow {
                             gridy = 4
                             gridx = 3
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -293,6 +315,7 @@ object OptionWindow {
                         gridBagConstraints {
                             gridy = 4
                             gridx = 4
+                            insets = insets(3)
                         }
                     )
                 }
@@ -304,6 +327,7 @@ object OptionWindow {
                             gridy = 4
                             gridx = 5
                             fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
                         }
                     )
                 }
@@ -316,6 +340,7 @@ object OptionWindow {
                             gridy = 5
                             gridx = 2
                             gridwidth = 2
+                            insets = insets(3)
                         }
                     )
                     addActionListener {
