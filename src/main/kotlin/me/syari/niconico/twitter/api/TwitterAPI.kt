@@ -1,6 +1,7 @@
 package me.syari.niconico.twitter.api
 
 import blue.starry.penicillin.*
+import blue.starry.penicillin.core.exceptions.*
 import blue.starry.penicillin.core.session.config.*
 import blue.starry.penicillin.endpoints.*
 import blue.starry.penicillin.endpoints.oauth.*
@@ -42,9 +43,13 @@ object TwitterAPI {
             var sinceId = client.search.search(word, count = 1).execute().result.searchMetadata.maxId
             while (true) {
                 delay(IntervalMillis)
-                val response = client.search.search(word, count = 100, sinceId = sinceId).execute()
-                sinceId = response.result.searchMetadata.maxId
-                handler.invoke(response.result.statuses)
+                try {
+                    val response = client.search.search(word, count = 100, sinceId = sinceId).execute()
+                    sinceId = response.result.searchMetadata.maxId
+                    handler.invoke(response.result.statuses)
+                } catch (ex: PenicillinTwitterApiException) {
+                    // Do Nothing
+                }
             }
         }
     }
