@@ -9,6 +9,7 @@ import java.awt.*
 import java.awt.event.*
 import java.awt.geom.*
 import java.awt.image.*
+import java.io.*
 import java.net.*
 import javax.imageio.*
 import javax.swing.*
@@ -37,7 +38,11 @@ object CommentWindow {
                         it.forEach { status ->
                             GlobalScope.launch {
                                 val icon = withContext(Dispatchers.IO) {
-                                    ImageIO.read(URL(status.user.profileImageUrlHttps))
+                                    try {
+                                        ImageIO.read(URL(status.user.profileImageUrlHttps))
+                                    } catch (ex: IOException) {
+                                        null
+                                    }
                                 }
                                 addComment(icon, status.text)
                             }
@@ -106,7 +111,7 @@ object CommentWindow {
         private inline val removeUrlRegex
             get() = "https?://[a-zA-Z0-9/:%#&~=_!'$?().+*\\-]+".toRegex()
 
-        suspend fun addComment(icon: BufferedImage, text: String) {
+        suspend fun addComment(icon: BufferedImage?, text: String) {
             fun String.removedIf(condition: Boolean, regex: Regex) = if (condition) replace(regex, "") else this
 
             val highlightWord = option.highlightWord
@@ -152,7 +157,7 @@ object CommentWindow {
         private val commentBounds: Rectangle2D,
         private var x: Int,
         private val y: Int,
-        private val icon: BufferedImage,
+        private val icon: BufferedImage?,
         private val text: String,
         private val color: Color,
         private val speedX: Int
@@ -167,7 +172,7 @@ object CommentWindow {
 
         fun draw(g: Graphics) {
             g.color = color
-            g.drawImage(icon, x, y, IconWidth, IconHeight, panel)
+            if (icon != null) g.drawImage(icon, x, y, IconWidth, IconHeight, panel)
             g.drawString(text, x + IconWidth + DistanceIconAndComment, y + ((IconHeight - commentBounds.y) / 2).toInt())
             x -= speedX
         }
@@ -184,7 +189,7 @@ object CommentWindow {
 
             suspend fun add(
                 panel: CommentPanel,
-                icon: BufferedImage,
+                icon: BufferedImage?,
                 text: String,
                 color: Color
             ) {
