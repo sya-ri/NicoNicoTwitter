@@ -7,6 +7,7 @@ import me.syari.niconico.twitter.util.swing.*
 import sun.font.*
 import java.awt.*
 import java.awt.event.*
+import java.awt.geom.*
 import java.awt.image.*
 import java.net.*
 import javax.imageio.*
@@ -74,7 +75,7 @@ object CommentWindow {
     class CommentPanel(val option: Option): JPanel() {
         val commentFont = Font(Font.SANS_SERIF, Font.PLAIN, 24)
 
-        private val commentManager = Comment.Manager(20, 10, 50)
+        val commentManager = Comment.Manager(20, 10, 50)
 
         fun start() {
             GlobalScope.launch {
@@ -144,7 +145,7 @@ object CommentWindow {
 
     class Comment(
         private val panel: CommentPanel,
-        private val width: Double,
+        private val commentBounds: Rectangle2D,
         private var x: Int,
         private val y: Int,
         private val icon: BufferedImage,
@@ -158,15 +159,17 @@ object CommentWindow {
             const val DistanceIconAndComment = 5
         }
 
+        private val width = panel.commentManager.marginX + commentBounds.width + IconWidth
+
         fun draw(g: Graphics) {
             g.color = color
             g.drawImage(icon, x, y, IconWidth, IconHeight, panel)
-            g.drawString(text, x + IconWidth + DistanceIconAndComment, y + IconHeight)
+            g.drawString(text, x + IconWidth + DistanceIconAndComment, y + ((IconHeight - commentBounds.y) / 2).toInt())
             x -= speedX
         }
 
         class Manager(
-            private val marginX: Int,
+            val marginX: Int,
             private val marginY: Int,
             private val beginY: Int
         ) {
@@ -199,7 +202,7 @@ object CommentWindow {
                     commentList.add(
                         Comment(
                             panel,
-                            marginX + bounds.width + IconWidth,
+                            bounds,
                             panel.width,
                             y,
                             icon,
