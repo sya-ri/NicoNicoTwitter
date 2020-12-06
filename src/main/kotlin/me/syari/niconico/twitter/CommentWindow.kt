@@ -8,6 +8,8 @@ import sun.font.*
 import java.awt.*
 import java.awt.event.*
 import java.awt.image.*
+import java.net.*
+import javax.imageio.*
 import javax.swing.*
 
 object CommentWindow {
@@ -33,7 +35,10 @@ object CommentWindow {
                     ) {
                         it.forEach { status ->
                             GlobalScope.launch {
-                                addComment(status.text)
+                                val icon = withContext(Dispatchers.IO) {
+                                    ImageIO.read(URL(status.user.profileImageUrlHttps))
+                                }
+                                addComment(icon, status.text)
                             }
                         }
                     }
@@ -96,7 +101,7 @@ object CommentWindow {
         private inline val removeUrlRegex
             get() = "https?://[a-zA-Z0-9/:%#&~=_!'$?().+*\\-]+".toRegex()
 
-        suspend fun addComment(text: String) {
+        suspend fun addComment(icon: BufferedImage, text: String) {
             fun String.removedIf(condition: Boolean, regex: Regex) = if (condition) replace(regex, "") else this
 
             val highlightWord = option.highlightWord
@@ -104,6 +109,7 @@ object CommentWindow {
             val color = if (isHighlight) option.highlightColor else option.textColor
             commentManager.add(
                 this,
+                icon,
                 text.removedIf(option.removeUserName, removeUserNameRegex)
                     .removedIf(option.removeHashTag, removeHashTagRegex)
                     .removedIf(option.removeUrl, removeUrlRegex)
@@ -137,16 +143,25 @@ object CommentWindow {
     }
 
     class Comment(
+        private val panel: CommentPanel,
         private val width: Double,
         private var x: Int,
         private val y: Int,
+        private val icon: BufferedImage,
         private val text: String,
         private val color: Color,
         private val speedX: Int
     ) {
+        companion object {
+            const val IconWidth = 48
+            const val IconHeight = 48
+            const val DistanceIconAndComment = 5
+        }
+
         fun draw(g: Graphics) {
             g.color = color
-            g.drawString(text, x, y)
+            g.drawImage(icon, x, y, IconWidth, IconHeight, panel)
+            g.drawString(text, x + IconWidth + DistanceIconAndComment, y + IconHeight)
             x -= speedX
         }
 
@@ -162,6 +177,7 @@ object CommentWindow {
 
             suspend fun add(
                 panel: CommentPanel,
+                icon: BufferedImage,
                 text: String,
                 color: Color
             ) {
@@ -174,13 +190,24 @@ object CommentWindow {
                     var y = beginY
                     while (true) {
                         yield(y)
-                        y += bounds.height.toInt() + marginY
+                        y += (bounds.height.toInt().coerceAtMost(IconHeight)) + marginY
                     }
                 }.first { notAvailableY.contains(it).not() }
                 if (panel.height < y || panel.option.maxCommentCount <= size) return
                 val speedX = (panel.width + bounds.width) / panel.option.displayDurationSecond / panel.option.displayFps
                 synchronized(commentList) {
-                    commentList.add(Comment(marginX + bounds.width, panel.width, y, text, color, speedX.toInt()))
+                    commentList.add(
+                        Comment(
+                            panel,
+                            marginX + bounds.width + IconWidth,
+                            panel.width,
+                            y,
+                            icon,
+                            text,
+                            color,
+                            speedX.toInt()
+                        )
+                    )
                 }
             }
 
