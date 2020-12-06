@@ -346,7 +346,7 @@ object OptionWindow {
                         allowsInvalid = false
                     }
                 ) {
-                    value = 20
+                    value = 75
                     gridBagLayout.setConstraints(
                         this,
                         gridBagConstraints {
@@ -372,7 +372,7 @@ object OptionWindow {
                         allowsInvalid = false
                     }
                 ) {
-                    value = 10
+                    value = 25
                     gridBagLayout.setConstraints(
                         this,
                         gridBagConstraints {
