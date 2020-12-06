@@ -437,6 +437,32 @@ object OptionWindow {
                         }
                     )
                 }
+                jLabel("アイコンサイズ") {
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 6
+                            gridx = 2
+                            insets = insets(3)
+                        }
+                    )
+                }
+                val iconSize = jFormatTextField(
+                    integerFormat {
+                        allowsInvalid = false
+                    }
+                ) {
+                    value = 48
+                    gridBagLayout.setConstraints(
+                        this,
+                        gridBagConstraints {
+                            gridy = 6
+                            gridx = 3
+                            fill = GridBagConstraints.HORIZONTAL
+                            insets = insets(3)
+                        }
+                    )
+                }
 
                 // y: 7
                 jButton("実行") {
@@ -494,7 +520,8 @@ object OptionWindow {
                                 marginX.value.toString().toInt(),
                                 marginY.value.toString().toInt(),
                                 beginY.value.toString().toInt(),
-                                commentSize.value.toString().toInt()
+                                commentSize.value.toString().toInt(),
+                                iconSize.value.toString().toInt()
                             )
                         )
                     }

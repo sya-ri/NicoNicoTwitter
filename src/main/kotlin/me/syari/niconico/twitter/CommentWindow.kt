@@ -76,7 +76,8 @@ object CommentWindow {
         val marginX: Int,
         val marginY: Int,
         val beginY: Int,
-        val commentSize: Int
+        val commentSize: Int,
+        val iconSize: Int
     )
 
     private inline fun Container.commentPanel(option: Option, action: CommentPanel.() -> Unit) = addT(CommentPanel(option).apply(action))
@@ -163,17 +164,27 @@ object CommentWindow {
         private val speedX: Int
     ) {
         companion object {
-            const val IconWidth = 48
-            const val IconHeight = 48
             const val DistanceIconAndComment = 5
         }
 
-        private val width = panel.commentManager.marginX + commentBounds.width + IconWidth
+        private val iconSize = panel.option.iconSize
+        private val width = panel.commentManager.marginX + commentBounds.width + iconSize
 
         fun draw(g: Graphics) {
             g.color = color
-            if (icon != null) g.drawImage(icon, x, y, IconWidth, IconHeight, panel)
-            g.drawString(text, x + IconWidth + DistanceIconAndComment, y + ((IconHeight - commentBounds.y) / 2).toInt())
+            if (icon != null) {
+                val scaleImg = BufferedImage(iconSize, iconSize, BufferedImage.TYPE_3BYTE_BGR)
+                scaleImg.createGraphics().drawImage(
+                    icon.getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING),
+                    0,
+                    0,
+                    iconSize,
+                    iconSize,
+                    null
+                )
+                g.drawImage(icon, x, y, panel.option.iconSize, panel.option.iconSize, panel)
+            }
+            g.drawString(text, x + iconSize + DistanceIconAndComment, y + ((iconSize - commentBounds.y) / 2).toInt())
             x -= speedX
         }
 
@@ -202,7 +213,7 @@ object CommentWindow {
                     var y = beginY
                     while (true) {
                         yield(y)
-                        y += (bounds.height.toInt().coerceAtMost(IconHeight)) + marginY
+                        y += (bounds.height.toInt().coerceAtMost(panel.option.iconSize)) + marginY
                     }
                 }.first { notAvailableY.contains(it).not() }
                 if (panel.height < y || panel.option.maxCommentCount <= size) return
