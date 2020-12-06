@@ -4,9 +4,9 @@ Twitter の検索機能の結果をニコニコ動画のコメント風に流し
 
 - クロマキー合成で使うことを前提としているので透過背景ではありません。
 - マルチプラットフォーム対応です。
-    - Windows
+    - Windows  
       ![](_img/option_windows.png)
-    - Mac
+    - Mac  
       ![](_img/option_mac.png)
     - Linux ... Not Tested
 - 強調表示やアイコン表示があるのでより盛り上がることができます。
