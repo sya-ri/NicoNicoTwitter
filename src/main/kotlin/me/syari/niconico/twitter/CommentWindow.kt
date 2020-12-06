@@ -13,6 +13,7 @@ import java.io.*
 import java.net.*
 import javax.imageio.*
 import javax.swing.*
+import kotlin.math.*
 
 object CommentWindow {
     private var openWindow: JFrame? = null
@@ -209,11 +210,12 @@ object CommentWindow {
                 val notAvailableY = synchronized(commentList) {
                     commentList.filter { panel.width < (it.x + it.width) }.map { it.y }
                 }
+                val boundsY = max(bounds.height.toInt(), panel.option.iconSize)
                 val y = sequence {
                     var y = beginY
                     while (true) {
                         yield(y)
-                        y += (bounds.height.toInt().coerceAtMost(panel.option.iconSize)) + marginY
+                        y += boundsY + marginY
                     }
                 }.first { notAvailableY.contains(it).not() }
                 if (panel.height < y || panel.option.maxCommentCount <= size) return
