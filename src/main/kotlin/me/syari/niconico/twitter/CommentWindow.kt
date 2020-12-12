@@ -172,7 +172,6 @@ object CommentWindow {
         private val width = panel.commentManager.marginX + commentBounds.width + iconSize
 
         fun draw(g: Graphics) {
-            g.color = color
             if (icon != null) {
                 val scaleImg = BufferedImage(iconSize, iconSize, BufferedImage.TYPE_3BYTE_BGR)
                 scaleImg.createGraphics().drawImage(
@@ -185,7 +184,13 @@ object CommentWindow {
                 )
                 g.drawImage(icon, x, y, panel.option.iconSize, panel.option.iconSize, panel)
             }
-            g.drawString(text, x + iconSize + DistanceIconAndComment, y + ((iconSize - commentBounds.y) / 2).toInt())
+            g.drawEdgeString(
+                text,
+                x + iconSize + DistanceIconAndComment,
+                y,
+                color,
+                Color.black
+            )
             x -= speedX
         }
 
