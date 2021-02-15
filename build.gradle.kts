@@ -9,7 +9,7 @@ version = "1.2.0"
 
 repositories {
     mavenCentral()
-    jcenter()
+    maven(url = "https://kotlin.bintray.com/kotlinx/")
     maven(url = "https://dl.bintray.com/nephyproject/stable")
 }
 
