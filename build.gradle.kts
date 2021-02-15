@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("blue.starry:penicillin:5.0.0")
+    implementation("blue.starry:penicillin:6.0.5")
     implementation("io.ktor:ktor-client-cio:1.5.1")
     implementation("com.soywiz.korlibs.klock:klock-jvm:2.0.6")
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
